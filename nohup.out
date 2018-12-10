@@ -1,0 +1,23 @@
+[11:22:25] Using gulpfile ~/github/deploy-pytorch-model-master/gulpfile.js
+[11:22:25] Starting 'serve'...
+[11:22:25] Starting 'clean'...
+[11:22:25] Starting 'wiredep'...
+[11:22:25] Finished 'wiredep' after 5.66 ms
+[11:22:25] Finished 'serve' after 9.21 ms
+[11:22:25] Finished 'clean' after 33 ms
+[11:22:25] Starting 'styles'...
+[11:22:25] Starting 'scripts'...
+[11:22:26] Starting 'fonts'...
+[11:22:26] Finished 'fonts' after 31 ms
+[11:22:26] Finished 'styles' after 1.08 s
+[11:22:26] Finished 'scripts' after 685 ms
+[Browsersync] Access URLs:
+ --------------------------------------
+       Local: http://localhost:9000
+    External: http://10.248.38.208:9000
+ --------------------------------------
+          UI: http://localhost:3001
+ UI External: http://localhost:3001
+ --------------------------------------
+[Browsersync] Serving files from: .tmp
+[Browsersync] Serving files from: app

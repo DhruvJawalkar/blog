@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Sobel Operator</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom fonts for this template -->
+    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+
+    <!-- Custom styles for this template -->
+    <link href="css/clean-blog.css" rel="stylesheet">
+
+  </head>
+
+  <body>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light" id="mainNav">
+      <div class="container">
+        <a class="navbar-brand" href="index.html">Simple Edge Detection</a>
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+          Menu
+          <i class="fas fa-bars"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="index.html">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="about.html">About</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Page Header -->
+    <header class="masthead" style="background-color: grey">
+      <div class="overlay"></div>
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-10 col-md-10 mx-auto">
+            
+            <div class="demo-section">
+                <h2 class="subheading demo-heading float-left">Detect Edges</h2>
+                <div class="clearfix float-right">
+                    <a onclick="invoke_upload_image()" class="btn btn-primary float-left" href="#">Upload Sample Image &rarr;</a>
+                  </div>
+                <input style="display:none;" id="upload-btn" type="file" onchange="upload_image()"><br>
+            <div class="clear"></div>          
+            <div class="result-div" id="result">
+              <img style="max-width:125%;position: absolute;left: -12.5%;" src="images/sobel/side-by-side.png"/>
+            </div>
+            </div>
+            <div class="clear"></div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Post Content -->
+    <article>
+      <div class="container main-content">
+        <div class="row">
+          <div class="col-lg-12 col-md-12 mx-auto">
+              <h2 class="section-heading">The Idea</h2>
+              <p>In detecting edges, the basic idea is to look for regions with sharp change of contrast.<br/> 
+                Usually the color/pixel values change sharply at the edges of objects.<br/>
+                Since we only need to detect edge lines, we simplify things further by converting image to grayscale and look for sharp changes in pixel values. 
+              </p>
+              <p>
+                  We convolve over the image with a simple filter [-1, 0, 1] to detect sharp changes in x-direction, transpose it for the y-direction.
+                  <div class="text-align-center">
+                      <img class="img_small" src="images/sobel/gx.png"/>
+                      <img class="img_small" src="images/sobel/gy.png"/>
+                    </div>
+                    <span class="caption text-muted">Resultant Gx, Gy (image gradients in x,y direction).</span>    
+              </p>
+              <p>Finally take the magnitude of both, to get our edges.</p>
+              <p>
+                An improvement on our simple filter would be to use a <a href="https://en.wikipedia.org/wiki/Sobel_operator">Sobel Filter</a> which gives slightly better results due to better averaging. 
+                <div class="text-align-center">
+                    <img style="width: 50%" src="images/sobel/sobel-filter.png"/>
+                  </div>
+                  <span class="caption text-muted">The Sobel Filters for x, y directions, applied on image A.</span>
+                  <br/>
+                  <br/>
+                  <div class="text-align-center">
+                      <img style="width: 80%" src="images/sobel/res-simple-sob.png"/>
+                    </div>
+                    <span class="caption text-muted">Results after applying Sobel filter, simple filter</span>  
+              </p>
+              <p>
+                Finally, the code is as below.
+                <div class="text-align-center">
+                    <img style="width:50%" src="images/sobel/code.png"/>
+                  </div>
+                  
+              </p>             
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <hr>
+
+    <!-- Footer -->
+    <footer>
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-8 col-md-10 mx-auto">
+            <ul class="list-inline text-center">
+              <li class="list-inline-item">
+                <a href="https://github.com/DhruvJawalkar/object-detection-using-pytorch">
+                  <span class="fa-stack fa-lg">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+              <li class="list-inline-item">
+                <a href="https://www.linkedin.com/in/dhruv-jawalkar-43b8816b/">
+                  <span class="fa-stack fa-lg">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fab fa-linkedin fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+            </ul>
+            <p class="copyright text-muted">Copyright &copy; Your Website 2018</p>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="vendor/jquery/jquery.toaster.js"></script>
+
+    <!-- Custom scripts for this template -->
+    <script src="scripts/sobel.js"></script>
+
+  </body>
+
+</html>

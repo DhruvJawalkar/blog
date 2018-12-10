@@ -1,0 +1,10 @@
+{
+  "name": "deploy-pytorch-model-master",
+  "private": true,
+  "dependencies": {
+    
+  },
+  "devDependencies": {
+    
+  }
+}

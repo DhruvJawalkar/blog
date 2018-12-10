@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Clean Blog - Start Bootstrap Theme</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom fonts for this template -->
+    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+
+    <!-- Custom styles for this template -->
+    <link href="css/clean-blog.css" rel="stylesheet">
+
+  </head>
+
+  <body>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light" id="mainNav">
+      <div class="container">
+        <a class="navbar-brand" href="index.html">Single Object Detection</a>
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+          Menu
+          <i class="fas fa-bars"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="index.html">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="about.html">About</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Page Header -->
+    <header class="masthead" style="background-color: grey">
+      <div class="overlay"></div>
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-8 col-md-10 mx-auto">
+            
+            <div class="demo-section">
+                <h2 class="subheading demo-heading float-left">Demo Section</h2>
+                <div class="clearfix float-right">
+                    <a onclick="invoke_upload_image()" class="btn btn-primary float-left" href="#">Upload Sample Image &rarr;</a>
+                  </div>
+                <input style="display:none;" id="upload-btn" type="file" onchange="upload_image()"><br>
+            <div class="clear"></div>          
+            <div class="result-div" id="result">
+              <img src="images/res-sample.png"/>
+            </div>
+            </div>
+            <div class="clear"></div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Post Content -->
+    <article>
+      <div class="container main-content">
+        <div class="row">
+          <div class="col-lg-12 col-md-12 mx-auto">
+              <h2 class="section-heading">Overview</h2>
+              <p>The above model is trained on the <a href="http://host.robots.ox.ac.uk/pascal/VOC/voc2007/index.html">PASCAL VOC 2007</a> image <a href="http://host.robots.ox.ac.uk/pascal/VOC/voc2007/examples/index.html">dataset</a> with training labels for 20 common object classes, 
+                the network architecture is a <a href= "https://cdn-images-1.medium.com/max/2000/1*S3TlG0XpQZSIpoDIUCQ0RQ.jpeg">RESNET-34</a>, with custom head. 
+                The loss function uses an L1-loss for the bounding boxes and cross entropy loss for the classification. 
+                The deeplearning framework being used is <a href="https://pytorch.org/">PyTorch</a>.
+              </p>
+
+              <h2 class="section-heading">The Dataset</h2>
+              <p> PASCAL can be considered as a good entry level dataset to get started with training models to do basic vision related tasks like image classification, object detection and image segmentation. It provides us with 5011 images as the train/val set, 
+                over 20 object categories and also contains the labeled annotations for each image, like object categories and their bounding boxes. We shall use them to train our model to output the bounding box values and the category of the largest object in the image.      
+                <img style="max-width:100%;" src='images/pascal-ds.png'>
+                <span class="caption text-muted">Sample images from the dataset</span>
+
+                <div>
+                    <img src="images/obj-cats.png" style="
+                    float: left;
+                    width: 12%;">
+                    <img src="images/anns.png" style="
+                    width: 40%;
+                    float: left;
+                    margin-left: 5%;">
+                <img src="images/ann-img.png" style="
+                float: left;
+                width: 35%;
+                margin-left: 5%;">
+                </div>
+                <div class="clear"></div>
+                <span class="caption text-muted">The object categories, image annotations and resultant image</span>
+              </p>
+
+              <h2 class="section-heading">Data pre-processing</h2>
+              <p>Next step is to prepare the data for the training process, we need to be able to map the images(X) to their expected output/ ground truth values(y). For this we use <a href="https://pandas.pydata.org/">Pandas</a> to create a DataFrame and save it as a csv file for our convenient reference.</p>
+              <div class="text-align-center">
+                <img class="img_small" src="images/img-to-bbox-csv.png"/>
+                <img class="img_small" src="images/img-to-cat-csv.png"/>
+              </div>
+              <span class="caption text-muted">The CSV file, mapping image to ground-truth values</span>
+              <p>The bounding box annotations in the dataset are denoted using the Top Left Corner(x,y), w, h. We convert it to Top Left(x, y) and Bottom Right (x', y'), so as to emphasize the network to get smaller boxes precise too.  </p>
+              <ul>
+                  <li>
+                      <h5>Image Transforms</h5>
+                      <p>
+                        Inorder to make the model robust to small changes in the image and predict better on the test set, we introduce transforms. We augment the dataset by introducing RandomHorizontalFlip, RandomRotate and ColorJitter to the images. 
+                        We handle the changes to dependent variable y, bounding box values as per the transform.    
+                      </p>
+                      <div class="text-align-center">
+                          <img class="img_x_small" src="images/img-aug-1.png"/>
+                          <img class="img_x_small" src="images/img-aug-2.png"/>
+                          <img class="img_x_small" src="images/img-aug-3.png"/>
+                          <img class="img_x_small" src="images/img-aug-4.png"/>
+                        </div>
+                        <span class="caption text-muted">Image transforms: flipping, color jitter and rotation</span>
+                        <p>Finally we convert the image to a 3D tensor with values scaled between (0-1) for better training and for the framework to manipulate it efficiently.</p>
+                  </li>
+                <li>
+                    <h5>Dataset and DataLoader</h5>
+                    <p>In short the <b>Dataset</b> is a class that helps us make the raw dataset iteratable. 
+                      <p>
+                      It implements the __getitem__(), __len__() methods to access the dataset like an array, encapsulates image transforms and returns a tuple of (transformed_image_tensor, label_tensor). 
+                      <br/>sample class can be found <a href="https://github.com/DhruvJawalkar/object-detection-using-pytorch/blob/master/custom_datasets.py">here.</a>
+                      </p>
+                      
+                        <div class="text-align-center">
+                            <img src="images/dataset-op.png" style="width: 50%;">
+                            <img src="images/ds-im-shape.png" style="width:30%;vertical-align: bottom;margin-left: 30px;">
+                        </div>
+                        <span style="margin-top:20px;" class="caption text-muted">Dataset: returns transformed image tensor and label(bbox_tensor, category_id)</span>    
+                    </p>
+                    <br/>
+                    <p>The <b>DataLoader</b> is a class that helps us create mini-batches and shuffles the data. It is a generator and returns one mini-batch at a time.</p>
+                    <div class="text-align-center">
+                        <img src="images/dl.png" style="width: 80%;">
+                    </div>
+                    <span class="caption text-muted">DataLoader</span>    
+                </li>
+              </ul>
+              <h2 class="section-heading">The Neural Network</h2>
+              <p>The model used here is the <a href="images/resnet-34.png">RESNET-34</a> version, pre-trained on ImageNet. The last 2 layers, average-pooling (avg-pool) and fully connected (fc-1000) have been removed and new layers have been added. 
+              </p>
+              <div class="text-align-center">
+                  <img src="images/model-arch.png" style="width: 60%;">
+              </div>  
+              <span class="caption text-muted">The network architecture</span>    
+              <p>In the end we output 20+4 numbers. One for the scores of each class, 4 for the bounding box (top-left corner (x,y) and bottom-right corner (x',y')).</p>
+              
+              <h2 class="section-heading">Custom Loss Function</h2>
+              <p>Since we are performing two tasks here, i.e. classification of the object and regression of its bounding box values. Therefore we have a combined loss function of cross-entropy loss and L1-loss.</p>
+              <ul>
+                <li>
+                  <h5>Cross entropy loss</h5>
+                  <p>
+                    Since the task is to classify, 
+                    we would want to interpret our output scores as probabilities for object to belong to that class.
+                    We do that by using Softmax function, 
+                    <div class="text-align-center">
+                        <img style="width:15%" src="images/softmax.png"/>  
+                  </div>
+                  <span class="caption text-muted">Softmax</span> 
+                  <div>Ex: for 3 classes, <img style="width:50%" src="images/sample-out-scores.png"/></div>  
+                  </p>
+                  <p>Next to calculate loss, if we use sum of squared differences, issue is we get very small gradients when target value is 1 but our model output is far off at 0.000001.<br/>
+                    To address this, a Cross Entropy loss is introduced, it is logarithmic based, minor improvement in values (0.000001 to 0.00001) provides good gradients (-log(0.000001)=6, -log(0.00001)=5).    
+                    <div class="text-align-center">
+                        <img src="images/cross-entropy-formula.png" style="width: 20%;">
+                        <span class="caption text-muted">Cross entropy loss</span> 
+                    </div>
+                    <p>From our Ex case, if 2 was the target class, loss = -(0*log(0.7)) + -(1*log(0.04) + -log(0*log(0.26))) = 1.398</p>    
+                  </p>
+                </li>
+                <li>
+                  <h5>L1 Loss</h5>
+                  <p>Usually for regression tasks, a common way to specify penalty is by the difference in values. <br>
+                    <b>|(y-y')|</b> or also, <b>(y-y')^2</b>. Where, <b>y'</b> being predicted, <b>y</b> being the expected value.</p>
+                  <p>Mathematically they are called <b>L1-norm</b> and squared <b>L2-norm</b> respectively for vectors <b>y</b> and <b>y'</b></p>
+                  <p>The general representation of norm being,</p> 
+                  <div class="text-align-center">
+                    <img src="images/p-norm.png" style="height:100px;"/>
+                  </div> 
+                  <span class="caption text-muted">The p-norm of a vector</span> 
+                  <p>We will be using the <b>L1-norm</b>.</p>  
+                </li>
+              </ul>
+              <p>In order for the network to weigh both tasks equally, we balance the scales, 
+                25 was found to be a suitable multiplier after looking at sample outputs.</p>
+              <div class="text-align-center">
+                <img class="width-80" src="images/combined-loss.png"/>
+              </div>
+              <span class="caption text-muted">Combined Loss: Cross Entropy Loss + L1 Loss</span>
+              <div class="clear"></div>
+              <h2 class="section-heading">Training</h2>
+              <p>Finally with all things in place, the <b>DataLoader</b>, <b>Model</b> and <b>Loss Function</b>, 
+                we choose an <b>Optimizer</b> for the gradient update strategy and then we train !<br/>
+                We pick <a href="https://pytorch.org/docs/stable/optim.html#torch.optim.Adam"><b>Adam</b></a></a> as our optimizer to update our model weights in order to minimize the overall loss. <b>Adam</b> has been found in general to perform well for our set of tasks.  
+                <div style="text-align:left" class="caption text-muted">A good explanation on optimizers can be found <a href="https://youtu.be/hd_KFJ5ktUc?t=234">here</a>.</div></p>   
+              
+              <div class="text-align-center">
+                  <img style="width:70%" src="images/training-loop.png"/>
+                  
+              </div>
+                <span class="caption text-muted">The basic training loop</span>  
+              
+              <p>  
+              <div class="text-align-center">
+                  <img style="width:90%" src="images/loss-plot.png"/>  
+              </div>
+              <div class="clear"></div>
+                <span class="caption text-muted">Visualizing the loss</span>  
+              </p>  
+
+              <h2 class="section-heading">Plot results on test set</h2>
+              <p>
+                We test our model on sample images from the validation/test set and visualize the final results. 
+                <div class="text-align-center">
+                    <img style="width:90%" src="images/model-results.png"/>
+                </div>
+              </p>
+
+              <p>The Jupyter notebook for this post can be found <a href="https://github.com/DhruvJawalkar/object-detection-using-pytorch/blob/master/largest-item-bbox-plus-classifier.ipynb">here</a>.</p>
+
+            
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <hr>
+
+    <!-- Footer -->
+    <footer>
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-8 col-md-10 mx-auto">
+            <ul class="list-inline text-center">
+              <li class="list-inline-item">
+                <a href="https://github.com/DhruvJawalkar/object-detection-using-pytorch">
+                  <span class="fa-stack fa-lg">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+              <li class="list-inline-item">
+                <a href="https://www.linkedin.com/in/dhruv-jawalkar-43b8816b/">
+                  <span class="fa-stack fa-lg">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fab fa-linkedin fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+            </ul>
+            <p class="copyright text-muted">Copyright &copy; Your Website 2018</p>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="vendor/jquery/jquery.toaster.js"></script>
+
+    <!-- Custom scripts for this template -->
+    <script src="scripts/main.js"></script>
+
+  </body>
+
+</html>
