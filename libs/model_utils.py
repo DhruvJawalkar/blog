@@ -176,5 +176,5 @@ def test_on_single_image(test_im_tensor, model, sz):
         pred_bbox, pred_class_scores = preds[:,:4], preds[:, 4:]
         pred_bbox = torch.sigmoid(pred_bbox)*sz
         pred_cat_id = pred_class_scores.argmax(dim=1)
-        pred_confs = nn.functional.softmax(pred_class_scores)
+        pred_confs = nn.functional.softmax(pred_class_scores, dim=1)
     return pred_bbox, pred_cat_id, pred_confs[0][pred_cat_id].item()             

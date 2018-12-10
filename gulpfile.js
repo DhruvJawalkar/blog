@@ -94,6 +94,9 @@ gulp.task('serve', () => {
       notify: false,
       port: 9000,
       ghostMode: false,
+      open: false,
+      //codeSync: false,
+      logConnections: false,
       server: {
         baseDir: ['.tmp', 'app'],
         routes: {

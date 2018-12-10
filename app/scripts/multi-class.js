@@ -20,7 +20,7 @@ function upload_image(){
     form_data.append('image', file)
     
     var request = new XMLHttpRequest();
-    request.open("POST", api_root_url+"/predict");
+    request.open("POST", api_root_url+"/predictMultiClass");
     request.send(form_data);
     
     $('#'+res_dom_container_id).empty()

@@ -1,3 +1,7 @@
+var api_root_url = location.hostname=="localhost" ?  "http://localhost:5000" : "https://dopelemon.me/api"
+var res_folder_root_url = location.hostname=="localhost" ? "" : "https://dopelemon.me/"
+
+
 function invoke_upload_image(){
     $("#upload-btn").click();
 }
@@ -16,7 +20,7 @@ function upload_image(){
     form_data.append('image', file)
     
     var request = new XMLHttpRequest();
-    request.open("POST", "http://localhost:5000/detect_edge");
+    request.open("POST", api_root_url+"/detect_edge");
     request.send(form_data);
     
     $('#'+res_dom_container_id).empty()
@@ -27,7 +31,7 @@ function upload_image(){
         if(this.readyState==4 && this.status==200){
             var response = JSON.parse(request.responseText)
             if(response){
-                append_resultant_image_to_dom(response['res_url'])
+                append_resultant_image_to_dom(res_folder_root_url+response['res_url'])
             }
         }
         else if(this.readyState==4){
