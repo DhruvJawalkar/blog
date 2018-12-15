@@ -3,10 +3,6 @@ import torchvision
 import torchvision.transforms as transforms
 import torch.nn as nn
 
-# coding: utf-8
-
-# In[ ]:
-
 
 
 class AdaptiveConcatPool(nn.Module):

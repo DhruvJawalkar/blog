@@ -12,7 +12,7 @@ import torch.nn.functional as F
 from torchvision import transforms 
 import libs.model_utils as model_utils
 import libs.plot_utils as plot_utils
-from libs.custom_layers import Flatten
+from libs.custom_layers import Flatten, AdaptiveConcatPool
 
 
 def load_single_obj_det_model():
@@ -29,6 +29,24 @@ def load_single_obj_det_model():
 
     model = model_utils.get_resnet34_model_with_custom_head(custom_head)
     model.load_state_dict(torch.load('combined_model_val_77.5.ckpt', map_location='cpu'))
+    model.eval()
+    return model
+
+def load_multi_class_model():
+    custom_head = nn.Sequential(
+        AdaptiveConcatPool(),
+        Flatten(),
+        nn.BatchNorm1d(1024),
+        nn.Dropout(0.25),
+        nn.Linear(1024, 512),
+        nn.ReLU(),
+        nn.BatchNorm1d(512),
+        nn.Dropout(0.5),
+        nn.Linear(512, 20),
+        nn.Sigmoid()
+    )
+    model = model_utils.get_resnet34_model_with_custom_head(custom_head)
+    model.load_state_dict(torch.load('multi_class.ckpt', map_location='cpu'))
     model.eval()
     return model
 
@@ -68,6 +86,16 @@ def test_model_on_img(im, model):
     pred_bbox, pred_cat_id, conf = model_utils.test_on_single_image(test_im_tensor, model, sz)
     return plot_utils.get_result_on_test_image(pred_bbox, pred_cat_id, conf, get_category_to_label, im)
 
+def get_multi_class_labeled_image(im, model):
+    sz = 224
+    test_tfms = transforms.Compose([
+        transforms.Resize((sz, sz)),
+        transforms.ToTensor()
+    ])
+    test_im_tensor = test_tfms(im)[None]
+    
+    pred_classes, pred_probs = model_utils.get_multi_class_labeled_image(test_im_tensor, model)
+    return plot_utils.get_multi_class_labeled_image(pred_classes, pred_probs, im)
 
 def delete_other_result_imgs(folder):
     files = glob.glob('app/results/'+folder+'/*.png')

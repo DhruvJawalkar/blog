@@ -178,3 +178,12 @@ def test_on_single_image(test_im_tensor, model, sz):
         pred_cat_id = pred_class_scores.argmax(dim=1)
         pred_confs = nn.functional.softmax(pred_class_scores, dim=1)
     return pred_bbox, pred_cat_id, pred_confs[0][pred_cat_id].item()             
+
+def get_multi_class_labeled_image(test_im_tensor, model):
+    pred_threshold = 0.4    
+    model.eval()
+    with torch.no_grad():
+        pred_probs = model(test_im_tensor)
+        pred_classes = (pred_probs>=pred_threshold)
+        pred_probs, pred_classes = pred_probs.view(20).numpy(), pred_classes.view(20).numpy()
+    return pred_classes, pred_probs     

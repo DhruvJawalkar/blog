@@ -37,7 +37,7 @@ function upload_image(){
         else if(this.readyState==4){
             $.toaster({ settings: {timeout:5000}, title:'', message : 'An error occurent while processing the image', priority : 'danger' });   
             $('#'+res_dom_container_id).empty()
-            $('#'+res_dom_container_id).append("<img src='images/res-sample.png'/>")
+            $('#'+res_dom_container_id).append("<img src='images/multi-class/multi-class-sample.png'/>")
         }
       };
 }

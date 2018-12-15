@@ -355,3 +355,52 @@ def get_result_on_test_image(pred_bbox, pred_cat_id, conf, get_label_fn, im):
     res_url = 'results/largest-item-bbox/res-'+hash+'.png'
     plt.savefig('app/'+res_url, format='png', bbox_inches='tight', pad_inches=0, frameon=False, transparent=True, dpi=150)
     return res_url
+
+
+def multi_class_model_id_to_cat(id):
+    cats = {0: 'aeroplane',
+    1: 'bicycle',
+    2: 'bird',
+    3: 'boat',
+    4: 'bottle',
+    5: 'bus',
+    6: 'car',
+    7: 'cat',
+    8: 'chair',
+    9: 'cow',
+    10: 'diningtable',
+    11: 'dog',
+    12: 'horse',
+    13: 'motorbike',
+    14: 'person',
+    15: 'pottedplant',
+    16: 'sheep',
+    17: 'sofa',
+    18: 'train',
+    19: 'tvmonitor'}
+    return cats[id]
+
+def get_multi_class_labeled_image(pred_classes, pred_probs, im):
+    fig, ax = plt.subplots(1, 1, dpi=150) #, dpi = 100
+    w, h = im.size
+    show_img_in_subplot(ax, im)
+    res_label = ''
+    y = 20
+
+    for i in range(20):
+        if(pred_classes[i]):
+            res_label = multi_class_model_id_to_cat(i)+' ('+ "{0:.2f}".format(pred_probs[i]*100) +'%)'
+            add_text_to_subplot(ax, (20, y), res_label, size='small')
+            y = y + (h/500)*30
+            
+    if(not res_label):
+        res_label = 'no prediction from model'
+        add_text_to_subplot(ax, (10, y), res_label, size='small')
+
+    hide_subplot_axes(ax)
+
+    hash = np.random.randint(low=0, high=9, size=10)
+    hash = ''.join(str(i) for i in hash)
+    res_url = 'results/multi-class/res-'+hash+'.png'
+    plt.savefig('app/'+res_url, format='png', bbox_inches='tight', pad_inches=0, frameon=False, transparent=True, dpi=150)
+    return res_url

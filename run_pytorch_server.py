@@ -11,14 +11,23 @@ app = flask.Flask(__name__)
 CORS(app)
 
 single_obj_det_model = None
+multi_class_model = None
 
 def load_single_obj_det_model():
     global single_obj_det_model
     single_obj_det_model = api_utils.load_single_obj_det_model()
+    return
 
+def load_multi_class_model():
+    global multi_class_model
+    multi_class_model = api_utils.load_multi_class_model()
+    return
 
 @app.route("/predict", methods=["POST"])
 def predict():
+    if(single_obj_det_model==None):
+        load_single_obj_det_model()
+
     data = {"success": False}
     if flask.request.method == 'POST':
         if flask.request.files.get("image"):
@@ -27,6 +36,24 @@ def predict():
             image_str = flask.request.files["image"].read()
             image = Image.open(io.BytesIO(image_str))
             res_url = api_utils.test_model_on_img(image, single_obj_det_model)
+            data['res_url'] = res_url
+            data["success"] = True
+
+    return flask.jsonify(data)    
+
+@app.route("/predictMultiClass", methods=["POST"])
+def predict_multi_class():
+    if(multi_class_model==None):
+        load_multi_class_model()
+
+    data = {"success": False}
+    if flask.request.method == 'POST':
+        if flask.request.files.get("image"):
+            api_utils.delete_other_result_imgs('multi-class')
+
+            image_str = flask.request.files["image"].read()
+            image = Image.open(io.BytesIO(image_str))
+            res_url = api_utils.get_multi_class_labeled_image(image, multi_class_model)
             data['res_url'] = res_url
             data["success"] = True
 

@@ -54,14 +54,13 @@
           <div class="col-lg-8 col-md-10 mx-auto">
             
             <div class="demo-section">
-                <h2 class="subheading demo-heading float-left">Demo Section</h2>
                 <div class="clearfix float-right">
                     <a onclick="invoke_upload_image()" class="btn btn-primary float-left" href="#">Upload Sample Image &rarr;</a>
                   </div>
                 <input style="display:none;" id="upload-btn" type="file" onchange="upload_image()"><br>
             <div class="clear"></div>          
             <div class="result-div" id="result">
-              <img src="images/res-sample.png"/>
+              <img src="images/multi-class/multi-class-sample.png"/>
             </div>
             </div>
             <div class="clear"></div>
@@ -75,164 +74,99 @@
       <div class="container main-content">
         <div class="row">
           <div class="col-lg-12 col-md-12 mx-auto">
-              <h2 class="section-heading">Overview</h2>
-              <p>The above model is trained on the <a href="http://host.robots.ox.ac.uk/pascal/VOC/voc2007/index.html">PASCAL VOC 2007</a> image <a href="http://host.robots.ox.ac.uk/pascal/VOC/voc2007/examples/index.html">dataset</a> with training labels for 20 common object classes, 
-                the network architecture is a <a href= "https://cdn-images-1.medium.com/max/2000/1*S3TlG0XpQZSIpoDIUCQ0RQ.jpeg">RESNET-34</a>, with custom head. 
-                The loss function uses an L1-loss for the bounding boxes and cross entropy loss for the classification. 
-                The deeplearning framework being used is <a href="https://pytorch.org/">PyTorch</a>.
-              </p>
-
-              <h2 class="section-heading">The Dataset</h2>
-              <p> PASCAL can be considered as a good entry level dataset to get started with training models to do basic vision related tasks like image classification, object detection and image segmentation. It provides us with 5011 images as the train/val set, 
-                over 20 object categories and also contains the labeled annotations for each image, like object categories and their bounding boxes. We shall use them to train our model to output the bounding box values and the category of the largest object in the image.      
-                <img style="max-width:100%;" src='images/pascal-ds.png'>
-                <span class="caption text-muted">Sample images from the dataset</span>
-
-                <div>
-                    <img src="images/obj-cats.png" style="
-                    float: left;
-                    width: 12%;">
-                    <img src="images/anns.png" style="
-                    width: 40%;
-                    float: left;
-                    margin-left: 5%;">
-                <img src="images/ann-img.png" style="
-                float: left;
-                width: 35%;
-                margin-left: 5%;">
-                </div>
-                <div class="clear"></div>
-                <span class="caption text-muted">The object categories, image annotations and resultant image</span>
-              </p>
-
-              <h2 class="section-heading">Data pre-processing</h2>
-              <p>Next step is to prepare the data for the training process, we need to be able to map the images(X) to their expected output/ ground truth values(y). For this we use <a href="https://pandas.pydata.org/">Pandas</a> to create a DataFrame and save it as a csv file for our convenient reference.</p>
-              <div class="text-align-center">
-                <img class="img_small" src="images/img-to-bbox-csv.png"/>
-                <img class="img_small" src="images/img-to-cat-csv.png"/>
-              </div>
-              <span class="caption text-muted">The CSV file, mapping image to ground-truth values</span>
-              <p>The bounding box annotations in the dataset are denoted using the Top Left Corner(x,y), w, h. We convert it to Top Left(x, y) and Bottom Right (x', y'), so as to emphasize the network to get smaller boxes precise too.  </p>
-              <ul>
-                  <li>
-                      <h5>Image Transforms</h5>
-                      <p>
-                        Inorder to make the model robust to small changes in the image and predict better on the test set, we introduce transforms. We augment the dataset by introducing RandomHorizontalFlip, RandomRotate and ColorJitter to the images. 
-                        We handle the changes to dependent variable y, bounding box values as per the transform.    
-                      </p>
-                      <div class="text-align-center">
-                          <img class="img_x_small" src="images/img-aug-1.png"/>
-                          <img class="img_x_small" src="images/img-aug-2.png"/>
-                          <img class="img_x_small" src="images/img-aug-3.png"/>
-                          <img class="img_x_small" src="images/img-aug-4.png"/>
-                        </div>
-                        <span class="caption text-muted">Image transforms: flipping, color jitter and rotation</span>
-                        <p>Finally we convert the image to a 3D tensor with values scaled between (0-1) for better training and for the framework to manipulate it efficiently.</p>
-                  </li>
-                <li>
-                    <h5>Dataset and DataLoader</h5>
-                    <p>In short the <b>Dataset</b> is a class that helps us make the raw dataset iteratable. 
-                      <p>
-                      It implements the __getitem__(), __len__() methods to access the dataset like an array, encapsulates image transforms and returns a tuple of (transformed_image_tensor, label_tensor). 
-                      <br/>sample class can be found <a href="https://github.com/DhruvJawalkar/object-detection-using-pytorch/blob/master/custom_datasets.py">here.</a>
-                      </p>
-                      
-                        <div class="text-align-center">
-                            <img src="images/dataset-op.png" style="width: 50%;">
-                            <img src="images/ds-im-shape.png" style="width:30%;vertical-align: bottom;margin-left: 30px;">
-                        </div>
-                        <span style="margin-top:20px;" class="caption text-muted">Dataset: returns transformed image tensor and label(bbox_tensor, category_id)</span>    
-                    </p>
-                    <br/>
-                    <p>The <b>DataLoader</b> is a class that helps us create mini-batches and shuffles the data. It is a generator and returns one mini-batch at a time.</p>
-                    <div class="text-align-center">
-                        <img src="images/dl.png" style="width: 80%;">
-                    </div>
-                    <span class="caption text-muted">DataLoader</span>    
-                </li>
-              </ul>
-              <h2 class="section-heading">The Neural Network</h2>
-              <p>The model used here is the <a href="images/resnet-34.png">RESNET-34</a> version, pre-trained on ImageNet. The last 2 layers, average-pooling (avg-pool) and fully connected (fc-1000) have been removed and new layers have been added. 
-              </p>
-              <div class="text-align-center">
-                  <img src="images/model-arch.png" style="width: 60%;">
-              </div>  
-              <span class="caption text-muted">The network architecture</span>    
-              <p>In the end we output 20+4 numbers. One for the scores of each class, 4 for the bounding box (top-left corner (x,y) and bottom-right corner (x',y')).</p>
-              
-              <h2 class="section-heading">Custom Loss Function</h2>
-              <p>Since we are performing two tasks here, i.e. classification of the object and regression of its bounding box values. Therefore we have a combined loss function of cross-entropy loss and L1-loss.</p>
-              <ul>
-                <li>
-                  <h5>Cross entropy loss</h5>
-                  <p>
-                    Since the task is to classify, 
-                    we would want to interpret our output scores as probabilities for object to belong to that class.
-                    We do that by using Softmax function, 
-                    <div class="text-align-center">
-                        <img style="width:15%" src="images/softmax.png"/>  
-                  </div>
-                  <span class="caption text-muted">Softmax</span> 
-                  <div>Ex: for 3 classes, <img style="width:50%" src="images/sample-out-scores.png"/></div>  
-                  </p>
-                  <p>Next to calculate loss, if we use sum of squared differences, issue is we get very small gradients when target value is 1 but our model output is far off at 0.000001.<br/>
-                    To address this, a Cross Entropy loss is introduced, it is logarithmic based, minor improvement in values (0.000001 to 0.00001) provides good gradients (-log(0.000001)=6, -log(0.00001)=5).    
-                    <div class="text-align-center">
-                        <img src="images/cross-entropy-formula.png" style="width: 20%;">
-                        <span class="caption text-muted">Cross entropy loss</span> 
-                    </div>
-                    <p>From our Ex case, if 2 was the target class, loss = -[0*log(0.7) + 1*log(0.04) + 0*log(0.26)] = 1.398</p>    
-                  </p>
-                </li>
-                <li>
-                  <h5>L1 Loss</h5>
-                  <p>Usually for regression tasks, a common way to specify penalty is by the difference in values. <br>
-                    <b>|(y-y')|</b> or also, <b>(y-y')^2</b>. Where, <b>y'</b> being predicted, <b>y</b> being the expected value.</p>
-                  <p>Mathematically they are called <b>L1-norm</b> and squared <b>L2-norm</b> respectively for vectors <b>y</b> and <b>y'</b></p>
-                  <p>The general representation of norm being,</p> 
-                  <div class="text-align-center">
-                    <img src="images/p-norm.png" style="height:100px;"/>
-                  </div> 
-                  <span class="caption text-muted">The p-norm of a vector</span> 
-                  <p>We will be using the <b>L1-norm</b>.</p>  
-                </li>
-              </ul>
-              <p>In order for the network to weigh both tasks equally, we balance the scales, 
-                25 was found to be a suitable multiplier after looking at sample outputs.</p>
-              <div class="text-align-center">
-                <img class="width-80" src="images/combined-loss.png"/>
-              </div>
-              <span class="caption text-muted">Combined Loss: Cross Entropy Loss + L1 Loss</span>
-              <div class="clear"></div>
-              <h2 class="section-heading">Training</h2>
-              <p>Finally with all things in place, the <b>DataLoader</b>, <b>Model</b> and <b>Loss Function</b>, 
-                we choose an <b>Optimizer</b> for the gradient update strategy and then we train !<br/>
-                We pick <a href="https://pytorch.org/docs/stable/optim.html#torch.optim.Adam"><b>Adam</b></a></a> as our optimizer to update our model weights in order to minimize the overall loss. <b>Adam</b> has been found in general to perform well for our set of tasks.  
-                <div style="text-align:left" class="caption text-muted">A good explanation on optimizers can be found <a href="https://youtu.be/hd_KFJ5ktUc?t=234">here</a>.</div></p>   
-              
-              <div class="text-align-center">
-                  <img style="width:70%" src="images/training-loop.png"/>
-                  
-              </div>
-                <span class="caption text-muted">The basic training loop</span>  
-              
-              <p>  
-              <div class="text-align-center">
-                  <img style="width:90%" src="images/loss-plot.png"/>  
-              </div>
-              <div class="clear"></div>
-                <span class="caption text-muted">Visualizing the loss</span>  
-              </p>  
-
-              <h2 class="section-heading">Plot results on test set</h2>
+              <h2 class="section-heading">Differences from single class classification</h2>
               <p>
-                We test our model on sample images from the validation/test set and visualize the final results. 
+                <b>Loss function: </b>
+                <br/>
+                In single class, we interpret final model scores as probabilities favouring one as the maximal.<br/> 
+                Hence we used Softmax, to generate probabilites summing to 1. <br/> 
+                Cross Entropy loss, to maximize the probability of the correct class.<br/> 
+                <br/>
+                In multi-class, we want to interpret the scores as degree of belongingness to that class. (Probability between (0-1)) <br/>
+                Therefore we apply Sigmoid. <br/>
+                Penalize using individualised Binary Cross Entropy Loss.
+
+                <br/>
+                <br/>
                 <div class="text-align-center">
-                    <img style="width:90%" src="images/model-results.png"/>
+                    <img class="img_small" src="images/multi-class/sigmoid.png">
                 </div>
+                <span class="caption text-muted">Sigmoid function, to squish values between 0-1, interpreted as class probabilities</span>
+
+                <br/>
+                <br/>
+                <div class="text-align-center">
+                    <img style="width:500px" src="images/multi-class/bce-loss.png">
+                </div>
+                <span class="caption text-muted">BCE loss, summed over all classes for an example, averaged over a mini batch.
+                  <br/>penalizes when predicted class probability (xn=0) is far off from GT (yn=1).  Since log(1)=0 and log(0)=inf</span>
               </p>
 
-              <p>The Jupyter notebook for this post can be found <a href="https://github.com/DhruvJawalkar/object-detection-using-pytorch/blob/master/largest-item-bbox-plus-classifier.ipynb">here</a>.</p>
+              <br/>
+              <br/>              
+              <p>
+                <b>Evaluation Metric:</b><br/>
+                Accuracy as a metric gives us good feedback only when the dataset is balanced wrt class instances, fails when skewed. 
+                <br/>
+                <br/>
+                <b>Ex:</b> say class A - 80%, B - 10%, C - 5%, D - 5% <br/>
+                Accuracy would give a feedback of 80% for only getting class A instances correct.<br/>
+                We desire to evaluate model perormance wrt all classes.
+                <br/>
+                <br/>
+                Therefore we improve the metrics,<br/> 
+                <b>Class-Wise Accuracy or Precision:</b> Correct predictions of class C / All predictions of class C <br/>
+                <span style="font-size: 14px;" class="caption float-left text-muted">formally, TP / FP + TP </span>    
+                <br/>
+                <br/>
+                Above alone can't give a complete picture as it could predict less and give a higher value. <br/>
+                Hence we add Recall, <br/>
+                <br/>
+                <b>Recall or Coverage :</b> Correct predictions of class C / All instances of class C <br/>       
+                <span style="font-size: 14px;" class="caption float-left text-muted">formally, TP / FN + TP </span>
+                <br/>
+                <br/>
+                Both combined give a complete picture of the model performance on each class. <br/>
+                Ideally the higher the two values the better. 
+                <br/>
+                <br/>
+                The calculation of these values depend on what we calculate as 'correct predictions' from the model scores.
+                This we do by using a <b>threshold value</b>. (Ex: p >= 0.5) 
+                <br/>
+                <br/>
+                Since this is a hyper-parameter, we would like to express the robustness of the model by observing <b>PR</b> values over various thresholds. <br/>
+                Express it using a graph, <b>Average Precision (AP)</b>. <br/>
+                Average it out over all classes to get <b>mAP</b>.<br/>
+                This expresses model performance better than accuracy and allows ways to analyze model on individual class. 
+              </p>
+
+              <h2 class="section-heading">Example Dataset</h2>
+              <p>
+                  <div class="text-align-center">
+                      <img style="width:80%" src="images/multi-class/skewed-ds.png">
+                  </div>
+                  <span class="caption text-muted">Skewed Instances</span>
+              </p>  
+              <p>
+                  <div class="text-align-center">
+                      <img style="width:80%" src="images/multi-class/multi-class-model-prediction.png">
+                  </div>
+                  <span class="caption text-muted">Model Predictions</span>
+              </p>  
+              <p>
+                  <div class="text-align-center">
+                      <img style="width:40%" src="images/multi-class/pr-curve-bottle.png">
+                  </div>
+                  <span class="caption text-muted">Area under curve => Average Precision for the class, over decreasing threshold values</span>
+              </p>
+              <p>
+                  <div class="text-align-center">
+                      <img style="width:40%" src="images/multi-class/mAP.png">
+                  </div>
+                  <span class="caption text-muted">Mean average precision of the model (mAP)</span>
+              </p>
+
+              <p>The Jupyter notebook for this post can be found <a href="https://github.com/DhruvJawalkar/object-detection-using-pytorch/blob/master/multi-class-classifier.ipynb">here</a>.</p>
 
             
           </div>
@@ -277,7 +211,7 @@
     <script src="vendor/jquery/jquery.toaster.js"></script>
 
     <!-- Custom scripts for this template -->
-    <script src="scripts/main.js"></script>
+    <script src="scripts/multi-class.js"></script>
 
   </body>
 
