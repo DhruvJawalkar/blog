@@ -403,8 +403,8 @@ footer .copyright {
 }
 
 .btn-primary {
-  background-color: #212529;
-  border-color: #212529;
+  background-color: #212529 !important;
+  border-color: #212529 !important;
 }
 
 .btn-primary:hover, .btn-primary:focus, .btn-primary:active {
@@ -467,4 +467,13 @@ footer .copyright {
   font-size: 14px;
   font-weight:400;
   font-family: "Open Sans";
+}
+
+.spinner{
+  display: none;
+  width:100%;text-align:center;padding-top:150px;
+}
+
+.display-none{
+display:none;
 }
