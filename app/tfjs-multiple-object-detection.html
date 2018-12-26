@@ -84,34 +84,63 @@
       <div class="container main-content">
         <div class="row">
           <div class="col-lg-12 col-md-12 mx-auto">
-              <h2 class="section-heading">Overview</h2>
-              <p>The above model is trained on the <a href="http://host.robots.ox.ac.uk/pascal/VOC/voc2007/index.html">PASCAL VOC 2007</a> image <a href="http://host.robots.ox.ac.uk/pascal/VOC/voc2007/examples/index.html">dataset</a> with training labels for 20 common object classes, 
-                the network architecture is a <a href= "https://cdn-images-1.medium.com/max/2000/1*S3TlG0XpQZSIpoDIUCQ0RQ.jpeg">RESNET-34</a>, with custom head. 
-                The loss function uses an L1-loss for the bounding boxes and cross entropy loss for the classification. 
-                The deeplearning framework being used is <a href="https://pytorch.org/">PyTorch</a>.
+              <h2 class="section-heading">TensorFlow.js</h2>
+              <p>
+                <ul>
+                  <li>Runs on WebGL, allowing GPU acceleration.</li>
+                  <li>Features <a style="text-decoration:underline" href="https://ai.googleblog.com/2018/04/mobilenetv2-next-generation-of-on.html?m=1">MobileNet</a> from Google, which has been developed to make models lightweight to run on mobile devices.</li>
+                  <li>Supports ML/DL model creation, training and inference within browser.</li>
+                  <li>Hassle free setup.</li>
+                  <li>Supports conversion and use of existing pre-trained TensorFlow models.</li>
+                  <li>Exposes Layers API in the js library with Keras like syntax.</li>
+                </ul>
+                
+                  <div class="text-center" style="margin-top:50px;">
+                      <img src="images/tfjs/tfjs-logo.png" style="
+                      float: left;
+                      width: 45%;">
+                  <img src="images/tfjs/tfjs-core.png" style="
+                  float: left;
+                  width: 45%;
+                  margin-left: 5%;">
+                  </div>
+                  <div class="clear"></div>
               </p>
 
-              <h2 class="section-heading">The Dataset</h2>
-              <p> PASCAL can be considered as a good entry level dataset to get started with training models to do basic vision related tasks like image classification, object detection and image segmentation. It provides us with 5011 images as the train/val set, 
-                over 20 object categories and also contains the labeled annotations for each image, like object categories and their bounding boxes. We shall use them to train our model to output the bounding box values and the category of the largest object in the image.      
-                <img style="max-width:100%;" src='images/pascal-ds.png'>
-                <span class="caption text-muted">Sample images from the dataset</span>
+              <h3>Performance relative to TensorFlow</h3>
+              <p>
+                <div class="text-center">
+                    <img src="images/tfjs/tfjs-metrics.png" style="
+                    width: 45%;">
+                    
+                    
+                </div>
+              </p>
 
+              <h2 class="section-heading"><a class="underline" href="https://github.com/tensorflow/tfjs-models/tree/master/coco-ssd">COCO-SSD Model</a></h2>
+              <p> 
                 <div>
-                    <img src="images/obj-cats.png" style="
+                    <img src="images/tfjs/coco-ssd-model.png" style="
                     float: left;
-                    width: 12%;">
-                    <img src="images/anns.png" style="
-                    width: 40%;
+                    width: 60%;">
+                    <img src="images/tfjs/predictions.png" style="
+                    width: 20%;
                     float: left;
-                    margin-left: 5%;">
-                <img src="images/ann-img.png" style="
-                float: left;
-                width: 35%;
-                margin-left: 5%;">
+                    margin-left: 15%;">
                 </div>
                 <div class="clear"></div>
-                <span class="caption text-muted">The object categories, image annotations and resultant image</span>
+                <span class="caption text-muted">Loading the model, predictions can be rendered using &#60;canvas&#62;</span>
+              </p>
+
+              <h2 class="section-heading">Links:</h2>
+              <p> 
+                <ul>
+                  <li><a class="underline" href="https://github.com/tensorflow/tfjs-converter">Loading pre-trained TensorFlow Models</a></li>
+                  <li><a class="underline" href="https://medium.freecodecamp.org/get-to-know-tensorflow-js-in-7-minutes-afcd0dfd3d2f">Writing a model in TensorFlow.js</a></li>
+                  <li><a class="underline" href="https://arxiv.org/pdf/1801.04381.pdf">MobileNetV2 paper</a></li>
+                  <li><a class="underline" href="https://www.youtube.com/watch?v=YB-kfeNIPCE">Official TF dev summit video</a></li>
+                </ul>
+                <div class="clear"></div>
               </p>
 
 

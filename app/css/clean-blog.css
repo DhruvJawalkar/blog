@@ -477,3 +477,6 @@ footer .copyright {
 .display-none{
 display:none;
 }
+.underline{
+  text-decoration: underline;
+}
