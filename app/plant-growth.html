@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Plant Growth</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom fonts for this template -->
+    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+
+    <!-- Custom styles for this template -->
+    <link href="css/clean-blog.css" rel="stylesheet">
+
+  </head>
+
+  <body>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light" id="mainNav">
+      <div class="container">
+        <a class="navbar-brand" href="index.html">Monitor Plant Growth</a>
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+          Menu
+          <i class="fas fa-bars"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="index.html">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="about.html">About</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Page Header -->
+    <header class="masthead" style="background-color: grey">
+      <div class="overlay"></div>
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-10 col-md-10 mx-auto">
+            
+            <div class="demo-section">
+            <h2 class="subheading demo-heading float-left"></h2>
+            <div style="height:800px" class="result-div" id="result">
+                <img style="max-height:800px" src="images/plant-growth/plant-growth.png"/>
+            </div>
+            </div>
+            <div class="clear"></div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Post Content -->
+    <article>
+      <div class="container main-content">
+        <div class="row">
+          <div class="col-lg-12 col-md-12 mx-auto">
+              
+              <p>
+                <h2 class="section-heading">LAB color space</h2> 
+                <ul>
+                  <li>To better extract plants from background, separating green components from others.</li>
+                  <li>Simple approaches on filtering in RBG color space was not producing good results.</li>
+                  <li>LAB separates green from red, blue from yellow and separates amount of light from color.</li>
+                </ul>
+                <div style="margin: 30px 0 0 0;" class="text-center">
+                    <img style="width:25%; display:inline-block;" src="images/plant-growth/lab-color-space.png"/>
+                    <img style="margin-left: 5%; width:25%; display:inline-block;" src="images/plant-growth/lab-sphere.png"/>
+                </div>
+                <div class="clear"></div>
+                <span class="caption text-muted">The LAB color space</span>
+              </p>
+
+              
+              <p>
+                <h2>Filtering Plants</h2>
+                <div style="margin: 50px 0 0 0;" class="text-center">
+                        <img style="width:30%; display:inline-block;" src="images/plant-growth/footage-filtering.png"/>
+                    </div>
+                    <div class="clear"></div>
+                    <span class="caption text-muted">Filtering based on -ve A channel values and thresholding higher values to black</span>
+              </p>
+
+              <p style="margin-top: 50px;">
+                    <h2>Removing Noise</h2>
+                    <ul>
+                        <li><b>Erosion: </b><br/>
+                             2D convolution over binary image with square kernel of specified size (say 5x5) <br/>
+                             Sets center pixel to 1 only if all pixels under kernel are 1<br/>
+                             Therefore erodes values at the boundaries of objects (i.e. sets to 0)
+                        </li>
+                        <li style="margin-top: 10px;"><b>Dilation: </b><br/>
+                                2D convolution over binary image with square kernel <br/> 
+                                Sets center pixel to 1 if any one of the pixels under the kernel is 1<br/>
+                                Expands boundaries, fills gaps within objects
+                        </li>
+                    </ul>
+
+                    <div style="margin: 50px 0 0 0;" class="text-center">
+                            <img style="width:30%; display:inline-block;" src="images/plant-growth/erosion-dilation.png"/>
+                        </div>
+                        <div class="clear"></div>
+                        <span class="caption text-muted">Erosion to remove noise, Dilation to get back width on the plants, finally calculate area</span>
+                  </p>
+
+              
+              <p> 
+                <h2 class="section-heading">Links:</h2> 
+                <ul>
+                  <li><a class="underline" href="https://plantcv.readthedocs.io/en/latest/">Plant CV</a></li>
+                  <li><a class="underline" href="https://docs.opencv.org/3.0-beta/doc/py_tutorials/py_imgproc/py_morphological_ops/py_morphological_ops.html">Erosion and Dilation</a></li>
+                  <li><a class="underline" href="https://en.wikipedia.org/wiki/CIELAB_color_space">LAB Colorspace</a></li>
+                </ul>
+                <div class="clear"></div>
+              </p>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <hr>
+
+    <!-- Footer -->
+    <footer>
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-8 col-md-10 mx-auto">
+            <ul class="list-inline text-center">
+              <li class="list-inline-item">
+                <a href="https://github.com/DhruvJawalkar/plant-growth-monitoring">
+                  <span class="fa-stack fa-lg">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+              <li class="list-inline-item">
+                <a href="https://www.linkedin.com/in/dhruv-jawalkar-43b8816b/">
+                  <span class="fa-stack fa-lg">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fab fa-linkedin fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+            </ul>
+            <p class="copyright text-muted">Copyright &copy; Your Website 2018</p>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="vendor/jquery/jquery.toaster.js"></script>
+
+    <!-- Custom scripts for this template -->
+
+  </body>
+
+</html>
