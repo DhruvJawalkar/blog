@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Depth Prediction</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom fonts for this template -->
+    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+
+    <!-- Custom styles for this template -->
+    <link href="css/clean-blog.css" rel="stylesheet">
+
+  </head>
+
+  <body>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light" id="mainNav">
+      <div class="container">
+        <a style="font-size: 1rem" class="navbar-brand" href="index.html">Depth Prediction from Single Image using Multi-Scale Deep Network</a>
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+          Menu
+          <i class="fas fa-bars"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="index.html">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="about.html">About</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Page Header -->
+    <header class="masthead" style="background-color: grey">
+      <div class="overlay"></div>
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-10 col-md-10 mx-auto">
+            <div class="demo-section">
+            <h2 class="subheading demo-heading float-left"></h2>
+            <div style="height: 600px; padding-top: 0;" class="result-div" id="result">
+                <img style="max-height: 600px" src="images/depth-prediction/model-arch.png"/>
+            </div>
+            </div>
+            <div class="clear"></div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Post Content -->
+    <article>
+      <div class="container main-content">
+        <div class="row">
+          <div class="col-lg-12 col-md-12 mx-auto">
+              
+              <p>
+                <h2><a href="https://cs.nyu.edu/~silberman/datasets/nyu_depth_v2.html">NYU Depth Dataset</a></h2>    
+                <div style="margin: 30px 0 0 0;" class="text-center">
+                    <img style="width:75%; display:inline-block;" src="images/depth-prediction/nyu-ds-sample.png"/>
+                </div>
+                <div class="clear"></div>
+                <span class="caption text-muted">Sample Image with its Depthmap (darker=> closer, lighter=> farther)</span>
+              </p>
+
+              <div class="clear"></div>
+              <p style="margin: 50px 0 0 0;">
+                    Model Architecture and Loss Function have been taken from their <a class="underline" href="https://arxiv.org/pdf/1411.4734v4.pdf">paper</a>. <br/>
+                    <br/>
+                    Briefly, model uses a VGG-16 network as backbone, has 3 Scale blocks which upscale the resolution from, <br/>15x20-> 60x80 -> 120x160 -> 120x160. <br/> 
+                    <br/>
+                    Input image resolution is 320x240, output depthmap resolution is at 120x160. <br/>
+                    <br/>
+                    <br/>
+                    Loss function takes difference of pixel values at 'log' scale adds squares of differences. Additional component of image gradients has been added to get the scene geometry/edges right along with relative depth values.  
+              </p>
+              <div class="clear"></div>
+
+              <p style="margin: 50px 0 0 0;">
+                    <h2 class="section-heading">Model Results:</h2> 
+                <div style="margin: 50px 0 0 0;" class="text-center">
+                        <img style="width:50%; display:inline-block;" src="images/depth-prediction/model-results-1.png"/>
+                    </div>
+                    <div class="clear"></div>
+                    <span class="caption text-muted">Image, GT Depth, Predicted Depth (320x240)</span>
+              </p>  
+              <p style="margin: 50px 0 0 0;">
+                <b>Pros:</b>
+                <ul>
+                    <li>Model predicts object boundaries well, due to added image gradient component in the newer loss fn.</li>
+                    <li>Prediction quality is decent considering from single image.</li>
+                </ul>
+                <b>Cons:</b>
+                <ul>
+                    <li>Model produces depthmaps at lower resolution (320x240).</li>
+                    <li>Depthmaps lack clarity.</li>
+                    <li>Model is really large, ~900MB, inference time is ~2s for a mini-batch of 8 (640x480) images.</li>
+                </ul>
+              </p>
+              <p> 
+                <h2 class="section-heading">Links:</h2> 
+                <ul>
+                  <li><a class="underline" href="https://github.com/DhruvJawalkar/Depth-Map-Prediction-from-a-Single-Image-using-a-Multi-Scale-Deep-Network">Implementation code</a></li>
+                  <li><a class="underline" href="https://cs.nyu.edu/~deigen/depth/depth_nips14.pdf">Depth Prediction using Multi-Scale Conv Net paper</a></li>
+                  <li><a class="underline" href="https://arxiv.org/pdf/1411.4734v4.pdf">Newer paper with improved model and loss fn</a></li>
+                  <li><a class="underline" href="https://cs.nyu.edu/~silberman/datasets/">NYU labeled Image - Depth Datasets</a></li>
+                </ul>
+                <div class="clear"></div>
+              </p>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <hr>
+
+    <!-- Footer -->
+    <footer>
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-8 col-md-10 mx-auto">
+            <ul class="list-inline text-center">
+              <li class="list-inline-item">
+                <a href="https://github.com/DhruvJawalkar/Depth-Map-Prediction-from-a-Single-Image-using-a-Multi-Scale-Deep-Network">
+                  <span class="fa-stack fa-lg">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+              <li class="list-inline-item">
+                <a href="https://www.linkedin.com/in/dhruv-jawalkar-43b8816b/">
+                  <span class="fa-stack fa-lg">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fab fa-linkedin fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+            </ul>
+            <p class="copyright text-muted">Copyright &copy; Your Website 2018</p>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="vendor/jquery/jquery.toaster.js"></script>
+
+    <!-- Custom scripts for this template -->
+
+  </body>
+
+</html>
