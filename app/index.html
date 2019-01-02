@@ -48,7 +48,7 @@
 
     <!-- Page Header -->
     <header class="masthead">
-      <div class="overlay"></div>
+     <!-- <div class="overlay"></div>
       <div class="container">
         <div class="row">
           <div class="col-lg-8 col-md-10 mx-auto">
@@ -58,104 +58,140 @@
             </div>
           </div>
         </div>
-      </div>
+      </div>-->
     </header>
 
     <!-- Main Content -->
     <div class="container main-content">
       <div class="row">
-        <div class="col-lg-8 col-md-10 mx-auto">
-            <div class="post-preview">
-                <a href="depth-prediction.html">
-                  <h2 class="post-title">
-                    Depth prediction
-                  </h2>
-                  <h3 class="post-subtitle">
-                    Paper implementation of Depth Prediction from Single Image using Multi-Scale Deep Network
-                  </h3>
-                </a>
-                <p class="post-meta">Discusses paper implementation, NYU depth dataset, model results and limitations 
-                  </p>
+        <div class="col-lg-10 col-md-12 mx-auto">
+          <div class="row">
+            <div class="col-lg-3 col-md-4 vertical-align-thumbnails">
+              <img class="post-thumbnail" src="images/depth-prediction/depthmap-thumbnail.png"/>
+            </div>
+              <div class="col-lg-9 col-md-8 post-preview">
+                  <a href="depth-prediction.html">
+                    <h3 class="post-title">
+                      Depth prediction
+                    </h3>
+                    <h4 class="post-subtitle">
+                      Paper implementation of Depth Prediction from Single Image using Multi-Scale Deep Network
+                    </h4>
+                  </a>
+                  <p class="post-meta">Discusses paper implementation, NYU depth dataset, model results and limitations 
+                    </p>
+            </div>
           </div>
           <hr>
-          <div class="post-preview">
-            <a href="post.html">
-              <h2 class="post-title">
-                Single object detection
-              </h2>
-              <h3 class="post-subtitle">
-                A model trained to detect the largest object in an image
-              </h3>
-            </a>
-            <p class="post-meta">Discusses building a detection model from ground up, writing custom dataset class, NN model, 
-              loss function, image transforms and training 
-              </p>
-          </div>
-          <hr>
-          <div class="post-preview">
-            <a href="multi-class.html">
-              <h2 class="post-title">
-                Multi class classification
-              </h2>
-              <h3 class="post-subtitle">
-                Model trained to detect object categories in an image
-              </h3>
-            </a>
-            <p class="post-meta">
-              Discusses differences from single class classification, need for Precision, Recall as a metric and mean average precision (mAP)  
-              </p>
-          </div>
-          <hr>
-          <div class="post-preview">
-            <a href="tfjs-multiple-object-detection.html">
-              <h2 class="post-title">
-                TensorFlow.js, multi-object detection 
-              </h2>
-              <h3 class="post-subtitle">
-                  Detects objects from an image, video feed 
-              </h3>
-            </a>
-            <p class="post-meta">Discusses features and use of TensorFlow.js, converting pre-trained models from TensorFlow to run within browser, COCO-SSD model</p>
-          </div>
-          <hr>
-
-          <div class="post-preview">
-            <a href="plant-growth.html">
-              <h2 class="post-title">
-                Plant growth monitoring   
-              </h2>
-              <h3 class="post-subtitle">
-                Attempted approach to isolate plants from background, measure growth as spreadout area   
-              </h3>
-            </a>
-            <p class="post-meta">Discusses about LAB color space, Erosion, Dilation in image processing, PlantCV library</p>
-          </div>
-          <hr>
-
-          <div class="post-preview">
-            <a href="sobel-operator.html">
-              <h2 class="post-title">
-                Simple edge detection 
-              </h2>
-              <h3 class="post-subtitle">
-                  Detect edges in an image using the Sobel filter
-              </h3>
-            </a>
-            <p class="post-meta">Discusses implementing edge detection using a convolutional filter
-              </p>
-          </div>
-          <hr>
-          <div class="post-preview">
-              <a href="#">
-                <h2 class="post-title">
-                  Multiple object detection 
-                </h2>
-                <h3 class="post-subtitle">
-                    SSD paper implementation to detect multiple objects in an image
-                </h3>
-              </a>
+          <div class="row">
+              <div class="col-lg-3 col-md-4 vertical-align-thumbnails">
+                <img class="post-thumbnail" src="images/single-obj-det-thumbnail.png"/>
+              </div>
+                <div class="col-lg-9 col-md-8 post-preview">
+                    <a href="post.html">
+                        <h3 class="post-title">
+                          Single object detection
+                        </h3>
+                        <h4 class="post-subtitle">
+                          A model trained to detect the largest object in an image
+                        </h4>
+                      </a>
+                      <p class="post-meta">Discusses building a detection model from ground up, writing custom dataset class, NN model, 
+                        loss function, image transforms and training 
+                        </p>
+              </div>
             </div>
             <hr>
+            <div class="row">
+                <div class="col-lg-3 col-md-4 vertical-align-thumbnails">
+                  <img class="post-thumbnail" src="images/multi-class/multi-class-thumbnail.png"/>
+                </div>
+                  <div class="col-lg-9 col-md-8 post-preview">
+                      <a href="multi-class.html">
+                          <h3 class="post-title">
+                            Multi class classification
+                          </h3>
+                          <h4 class="post-subtitle">
+                            Model trained to detect object categories in an image
+                          </h4>
+                        </a>
+                        <p class="post-meta">
+                          Discusses differences from single class classification, need for Precision, Recall as a metric and mean average precision (mAP)  
+                          </p>
+                </div>
+              </div>
+          <hr>
+          <div class="row">
+              <div class="col-lg-3 col-md-4 vertical-align-thumbnails">
+                <img class="post-thumbnail" src="images/tfjs/tfjs-thumbnail.png"/>
+              </div>
+                <div class="col-lg-9 col-md-8 post-preview">
+                    <a href="tfjs-multiple-object-detection.html">
+                        <h3 class="post-title">
+                          TensorFlow.js, multi-object detection 
+                        </h3>
+                        <h4 class="post-subtitle">
+                            Detects objects from an image, video feed 
+                        </h4>
+                      </a>
+                      <p class="post-meta">Discusses features and use of TensorFlow.js, converting pre-trained models from TensorFlow to run within browser, COCO-SSD model</p>
+              </div>
+            </div>
+        <hr>
+        <div class="row">
+            <div class="col-lg-3 col-md-4 vertical-align-thumbnails">
+              <img class="post-thumbnail" src="images/plant-growth/plant-growth-thumbnail.png"/>
+            </div>
+              <div class="col-lg-9 col-md-8 post-preview">
+                  <a href="plant-growth.html">
+                      <h3 class="post-title">
+                        Plant growth monitoring   
+                      </h3>
+                      <h4 class="post-subtitle">
+                        Attempted approach to isolate plants from background, measure growth as spreadout area   
+                      </h4>
+                    </a>
+                    <p class="post-meta">Discusses about LAB color space, Erosion, Dilation in image processing, PlantCV library</p>
+            </div>
+          </div>
+      <hr>
+      <div class="row">
+          <div class="col-lg-3 col-md-4 vertical-align-thumbnails">
+            <img class="post-thumbnail" src="images/sobel/sobel-thumbnail.png"/>
+          </div>
+            <div class="col-lg-9 col-md-8 post-preview">
+                <a href="sobel-operator.html">
+                    <h3 class="post-title">
+                      Simple edge detection 
+                    </h3>
+                    <h4 class="post-subtitle">
+                        Detect edges in an image using the Sobel filter
+                    </h4>
+                  </a>
+                  <p class="post-meta">Discusses implementing edge detection using a convolutional filter
+                    </p>
+          </div>
+        </div>
+    <hr>
+    <!-- 
+    <div class="row">
+        <div class="col-lg-4 col-md-4">
+          <img class="post-thumbnail" src="images/sobel/sobel-thumbnail.png"/>
+        </div>
+          <div class="col-lg-8 col-md-8 post-preview">
+              <a href="#">
+                  <h2 class="post-title">
+                    Multiple object detection 
+                  </h2>
+                  <h4 class="post-subtitle">
+                      SSD paper implementation to detect multiple objects in an image
+                  </h4>
+                  <p class="post-meta">Discusses implementing edge detection using a convolutional filter
+                    </p>
+                </a> 
+        </div>
+      </div>
+  <hr>-->
           <!-- Pager 
           <div class="clearfix">
             <a class="btn btn-primary float-right" href="#">Older Posts &rarr;</a>

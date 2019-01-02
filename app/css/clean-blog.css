@@ -294,7 +294,7 @@ header.masthead .post-heading .meta a {
 }
 
 .post-preview > .post-meta {
-  font-size: 18px;
+  font-size: 15px;
   font-style: italic;
   margin-top: 0;
   color: #868e96;
@@ -312,7 +312,7 @@ header.masthead .post-heading .meta a {
 
 @media only screen and (min-width: 768px) {
   .post-preview > a > .post-title {
-    font-size: 36px;
+    /*font-size: 36px;*/
   }
 }
 
@@ -479,4 +479,13 @@ display:none;
 }
 .underline{
   text-decoration: underline;
+}
+.post-thumbnail{
+  max-width: 100%;
+}
+.vertical-align-thumbnails{
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
 }
