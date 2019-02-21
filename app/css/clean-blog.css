@@ -63,7 +63,7 @@ blockquote {
 
 ::-moz-selection {
   color: #fff;
-  background: #0085A1;
+  background: #212529;
   text-shadow: none;
 }
 
@@ -74,7 +74,7 @@ blockquote {
 }
 
 img::-moz-selection {
-  color: #fff;
+  color: #0085A1;
   background: transparent;
 }
 
@@ -488,4 +488,63 @@ display:none;
   justify-content: center;
   flex-direction: column;
   text-align: center;
+}
+
+.sol-containers{
+  font-family: 'Open Sans' !important;
+    font-size: 13px !important;
+}
+.sol-containers > div{
+  float: left;
+  width: 25%;
+}
+
+.sol-labels{
+  color: #fff;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+#filtered-results-img-container{
+  max-height: 500px;
+  overflow: scroll;
+}
+#filtered-results-img-container>div{
+  height: 200px;
+  width:200px;
+  margin-right:10px;
+  margin-bottom:10px;
+  float:left;
+  text-align:center;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+#filtered-results-img-container>div>div>img{
+  text-align: center;
+  margin: auto;
+  max-height: 150px;
+  max-width:200px;
+  margin-bottom:5px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+#filtered-results-img-container>div>div{
+  display: table-cell;
+  vertical-align: middle;
+  height: 150px;
+  width:200px;
+}
+
+#filtered-results-img-container>div>label{
+  font-size: 10px;
+  color: #f1f1f1f1;
+  font-weight: 500;
+  font-family: 'Open Sans';
+}
+#filtered-results-div{
+  padding-top: 20px;
+}
+#filtered-results-div-title{
+  font-size:11px;
+  font-family: 'Open Sans';
+  color: #f1f1f1;
+  padding-top:10px;
+
 }

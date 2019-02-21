@@ -1,29 +1,29 @@
-var api_root_url = location.hostname=="localhost" ?  "http://localhost:5000" : "https://dopelemon.me/api"
-var res_folder_root_url = location.hostname=="localhost" ? "" : "https://dopelemon.me/"
+var api_root_url = location.hostname=='localhost' ?  'http://localhost:5000' : 'https://dopelemon.me/api'
+var res_folder_root_url = location.hostname=='localhost' ? '' : 'https://dopelemon.me/'
 var model
 
 console.log('loading coco-ssd model...')
 cocoSsd.load().then(function(res){
     model = res
     console.log('done')
-    $("#upload_btn_div").attr('title','Ready')
-    $("#web-cam-btn").attr('title','Ready')
+    $('#upload_btn_div').attr('title','Ready')
+    $('#web-cam-btn').attr('title','Ready')
     setTimeout(function(){
-        $("#upload_btn_div").attr('title','')
-        $("#web-cam-btn").attr('title','')
+        $('#upload_btn_div').attr('title','')
+        $('#web-cam-btn').attr('title','')
     }, 1000)
-    $("#upload_btn_div>a").removeClass('disabled')
-    $("#web-cam-btn>a").removeClass('disabled')
+    $('#upload_btn_div>a').removeClass('disabled')
+    $('#web-cam-btn>a').removeClass('disabled')
 },function(){
     //failure
     console.log('loading tf model failed')
-    $("#upload_btn_div").attr('title','Failed to load tf model in browser')
-    $("#web-cam-btn").attr('title','Failed to load tf model in browser')
+    $('#upload_btn_div').attr('title','Failed to load tf model in browser')
+    $('#web-cam-btn').attr('title','Failed to load tf model in browser')
 });
 
 function draw_sample_image_in_canvas(){
-    const canvas = document.getElementById("canvas");
-    const ctx = canvas.getContext("2d");
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
     var imageObj = new Image();
     canvas.width = 888;
     canvas.height = 500;
@@ -36,7 +36,7 @@ function draw_sample_image_in_canvas(){
 draw_sample_image_in_canvas()
 
 function invoke_upload_image(){
-    $("#upload-btn").click();
+    $('#upload-btn').click();
 }
 
 function draw_bbox(ctx, predictions, font){
@@ -57,13 +57,13 @@ function draw_label(ctx, predictions){
         const x = prediction.bbox[0];
         const y = prediction.bbox[1];
 
-        ctx.fillStyle = "#000000";
+        ctx.fillStyle = '#000000';
         ctx.fillText(prediction.class, x, y);
       });
 }
 
 function draw_res_image(canvas, ctx, image, predictions){
-    const font = "16px sans-serif";
+    const font = '16px sans-serif';
     
     canvas.width = image.width;
     canvas.height = image.height;
@@ -71,10 +71,10 @@ function draw_res_image(canvas, ctx, image, predictions){
     ctx.drawImage(image, 0, 0, ctx.canvas.width, ctx.canvas.height);
 
     ctx.font = font;
-    ctx.textBaseline = "top";
-    ctx.strokeStyle = "#00FFFF";
+    ctx.textBaseline = 'top';
+    ctx.strokeStyle = '#00FFFF';
     ctx.lineWidth = 3;
-    ctx.fillStyle = "#00FFFF";
+    ctx.fillStyle = '#00FFFF';
 
     $('#spinner').hide()
     draw_bbox(ctx, predictions, font)
@@ -82,15 +82,15 @@ function draw_res_image(canvas, ctx, image, predictions){
 }
 
 function upload_image(){
-    const canvas = document.getElementById("canvas");
-    const ctx = canvas.getContext("2d");
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
 
     var input_elem = document.querySelector('input[type=file]')
     var file = input_elem.files[0]; //sames as here
     const image = document.getElementById('img');
     
     var reader  = new FileReader();
-    reader.addEventListener("load", function () {
+    reader.addEventListener('load', function () {
         image.src = reader.result;
         
         setTimeout(function(){
@@ -113,27 +113,27 @@ function upload_image(){
 }
 
 function drawVideoPredictions(predictions){
-    const c = document.getElementById("canvas");
-    const ctx = c.getContext("2d");
+    const c = document.getElementById('canvas');
+    const ctx = c.getContext('2d');
     c.width = 700;
     c.height = 500;
     ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
     ctx.drawImage(video, 0, 0, ctx.canvas.width, ctx.canvas.height);
     // Font options.
-    const font = "16px sans-serif";
+    const font = '16px sans-serif';
     ctx.font = font;
-    ctx.textBaseline = "top";
+    ctx.textBaseline = 'top';
     predictions.forEach(prediction => {
       const x = prediction.bbox[0];
       const y = prediction.bbox[1];
       const width = prediction.bbox[2];
       const height = prediction.bbox[3];
       // Draw the bounding box.
-      ctx.strokeStyle = "#00FFFF";
+      ctx.strokeStyle = '#00FFFF';
       ctx.lineWidth = 4;
       ctx.strokeRect(x, y, width, height);
       // Draw the label background.
-      ctx.fillStyle = "#00FFFF";
+      ctx.fillStyle = '#00FFFF';
       const textWidth = ctx.measureText(prediction.class).width;
       const textHeight = parseInt(font, 10); // base 10
       ctx.fillRect(x, y, textWidth + 4, textHeight + 4);
@@ -143,7 +143,7 @@ function drawVideoPredictions(predictions){
       const x = prediction.bbox[0];
       const y = prediction.bbox[1];
       // Draw the text last to ensure it's on top.
-      ctx.fillStyle = "#000000";
+      ctx.fillStyle = '#000000';
       ctx.fillText(prediction.class, x, y);
     });
 }
@@ -152,9 +152,9 @@ var video
 var localstream
 
 function close_stream(){
-    video = document.getElementById("video")
+    video = document.getElementById('video')
     video.pause()
-    video.src = ""
+    video.src = ''
     tracks = localstream.getTracks()
     tracks[0].stop();
 
@@ -175,13 +175,13 @@ function detectFrame() {
   }
 
 function load_webcam(){
-    video = document.getElementById("video")
+    video = document.getElementById('video')
     
     navigator.mediaDevices
       .getUserMedia({
         audio: false,
         video: {
-          facingMode: "user",
+          facingMode: 'user',
           width: 700,
           height: 500
         }
