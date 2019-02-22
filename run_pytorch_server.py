@@ -12,6 +12,7 @@ CORS(app)
 
 single_obj_det_model = None
 multi_class_model = None
+yoga_pose_classifier_model = None
 
 def load_single_obj_det_model():
     global single_obj_det_model
@@ -21,6 +22,11 @@ def load_single_obj_det_model():
 def load_multi_class_model():
     global multi_class_model
     multi_class_model = api_utils.load_multi_class_model()
+    return
+
+def load_yoga_pose_classifier_model():
+    global yoga_pose_classifier_model
+    yoga_pose_classifier_model = api_utils.load_yoga_pose_classifier_model()
     return
 
 @app.route("/predict", methods=["POST"])
@@ -58,6 +64,24 @@ def predict_multi_class():
             data["success"] = True
 
     return flask.jsonify(data)    
+
+@app.route("/predictAsanaType", methods=["POST"])
+def predict_asana_type():
+    if(yoga_pose_classifier_model==None):
+        load_yoga_pose_classifier_model()
+
+    data = {"success": False}
+    if flask.request.method == 'POST':
+        if flask.request.files.get("image"):
+            api_utils.delete_other_result_imgs('yoga-pose')
+
+            image_str = flask.request.files["image"].read()
+            image = Image.open(io.BytesIO(image_str))
+            res_url = api_utils.get_yoga_pose_labeled_image(image, yoga_pose_classifier_model)
+            data['res_url'] = res_url
+            data["success"] = True
+
+    return flask.jsonify(data)
 
 @app.route("/detect_edge", methods=["POST"])
 def detect_edge():

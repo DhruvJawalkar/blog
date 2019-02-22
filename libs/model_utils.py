@@ -33,6 +33,11 @@ def get_resnet34_model_with_custom_head(custom_head):
     model = model.to(device)
     return model
 
+def get_resnet34_model():
+    model = resnet34(pretrained=True)
+    model = model.to(device)
+    return model
+
 def get_model_predictions_on_a_sample_batch(model, dl):
     model.eval()
     with torch.no_grad():
@@ -187,3 +192,19 @@ def get_multi_class_labeled_image(test_im_tensor, model):
         pred_classes = (pred_probs>=pred_threshold)
         pred_probs, pred_classes = pred_probs.view(20).numpy(), pred_classes.view(20).numpy()
     return pred_classes, pred_probs     
+
+
+def get_yoga_pose_labeled_image(test_im_tensor, model, pose_id_to_name):
+    model.eval()
+    with torch.no_grad():
+        res = model(test_im_tensor)
+        pred_probs = torch.nn.functional.softmax(res, dim=1)[0]
+        top_two = pred_probs.argsort()[-2:].cpu().numpy()
+        
+        res = []
+        if(pred_probs[top_two[-1]]>0.8):
+            res.append({'conf':round(pred_probs[top_two[-1]].item(), 2), 'pose_name': pose_id_to_name[top_two[-1]]})
+        else:
+            res.append({'conf':round(pred_probs[top_two[-1]].item(), 2), 'pose_name': pose_id_to_name[top_two[-1]]})
+            res.append({'conf':round(pred_probs[top_two[-2]].item(), 2), 'pose_name': pose_id_to_name[top_two[-2]]})
+        return res

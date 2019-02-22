@@ -496,7 +496,7 @@ display:none;
 }
 .sol-containers > div{
   float: left;
-  width: 25%;
+  margin-left:10px;
 }
 
 .sol-labels{
@@ -546,5 +546,5 @@ display:none;
   font-family: 'Open Sans';
   color: #f1f1f1;
   padding-top:10px;
-
+  margin-left:20px;
 }

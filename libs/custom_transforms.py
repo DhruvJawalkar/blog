@@ -5,7 +5,25 @@ import torchvision.transforms as transforms
 import math
 import numpy as np
 from PIL import Image
+from PIL import ImageOps
 
+class Resize(object):
+    def __init__(self, size=224):
+        self.size = size
+        
+    def __call__(self, im):  
+        if(im.height > im.width):
+            
+            w = int(self.size*im.width/im.height)
+            h = self.size
+            pad_val = int((224-w)/2)
+            pad = (224-w-pad_val,0,pad_val,0)
+        else:
+            h = int(self.size*im.height/im.width)
+            w = self.size
+            pad_val = int((224-h)/2)
+            pad = (0,224-h-pad_val,0,pad_val)
+        return ImageOps.expand(im.resize((w,h),resample=Image.BILINEAR), pad)
 
 class Denorm(object):
     def __init__(self, mean, std):

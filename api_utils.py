@@ -13,6 +13,7 @@ from torchvision import transforms
 import libs.model_utils as model_utils
 import libs.plot_utils as plot_utils
 from libs.custom_layers import Flatten, AdaptiveConcatPool
+from libs.custom_transforms import Resize
 
 
 def load_single_obj_det_model():
@@ -47,6 +48,13 @@ def load_multi_class_model():
     )
     model = model_utils.get_resnet34_model_with_custom_head(custom_head)
     model.load_state_dict(torch.load('multi_class.ckpt', map_location='cpu'))
+    model.eval()
+    return model
+
+def load_yoga_pose_classifier_model():
+    model = model_utils.get_resnet34_model()
+    model.fc = nn.Linear(512, 107)  
+    model.load_state_dict(torch.load('yoga-asana-classifier.ckpt', map_location='cpu'))
     model.eval()
     return model
 
@@ -96,6 +104,19 @@ def get_multi_class_labeled_image(im, model):
     
     pred_classes, pred_probs = model_utils.get_multi_class_labeled_image(test_im_tensor, model)
     return plot_utils.get_multi_class_labeled_image(pred_classes, pred_probs, im)
+
+def get_yoga_pose_labeled_image(im, model):
+    pose_id_to_name = {0: 'Bharadvajasana I', 1: 'Padangusthasana', 2: 'Paripurna Navasana', 3: 'Baddha Konasana', 4: 'Dhanurasana', 5: 'Setu Bandha Sarvangasana', 6: 'Ustrasana', 7: 'Marjaryasana', 8: 'Chakravakasana', 9: 'Ashtanga Namaskara', 10: 'Utkatasana', 11: 'Balasana', 12: 'Bhujangasana', 13: 'Savasana', 14: 'Gomukhasana', 15: 'Bitilasana', 16: 'Bakasana', 17: 'Makara Adho Mukha Svanasana', 18: 'Ardha Pincha Mayurasana', 19: 'Adho Mukha Svanasana', 20: 'Garudasana', 21: 'Sukhasana', 22: 'Astavakrasana', 23: 'Utthita Hasta Padangustasana', 24: 'Uttana Shishosana', 25: 'Utthita Parsvakonasana', 26: 'Utthita Trikonasana', 27: 'Pincha Mayurasana', 28: 'Agnistambhasana', 29: 'Tittibhasana', 30: 'Matsyasana', 31: 'Chaturanga Dandasana', 32: 'Malasana', 33: 'Parighasana', 34: 'Ardha Bhekasana', 35: 'Ardha Matsyendrasana', 36: 'Supta Matsyendrasana', 37: 'Ardha Chandrasana', 38: 'Adho Mukha Vriksasana', 39: 'Ananda Balasana', 40: 'Janu Sirsasana', 41: 'Virasana', 42: 'Krounchasana', 43: 'Utthita Ashwa Sanchalanasana', 44: 'Parsvottanasana', 45: 'Viparita Karani', 46: 'Salabhasana', 47: 'Natarajasana', 48: 'Padmasana', 49: 'Anjaneyasana', 50: 'Marichyasana III', 51: 'Hanumanasana', 52: 'Tadasana', 53: 'Pasasana', 54: 'Eka Pada Rajakapotasana', 55: 'Eka Pada Rajakapotasana II', 56: 'Mayurasana', 57: 'Kapotasana', 58: 'Phalakasana', 59: 'Halasana', 60: 'Eka Pada Koundinyanasana I', 61: 'Eka Pada Koundinyanasana II', 62: 'Marichyasana I', 63: 'Supta Baddha Konasana', 64: 'Supta Padangusthasana', 65: 'Supta Virasana', 66: 'Parivrtta Janu Sirsasana', 67: 'Parivrtta Parsvakonasana', 68: 'Parivrtta Trikonasana', 69: 'Tolasana', 70: 'Paschimottanasana', 72: 'Parsva Bakasana', 73: 'Vasisthasana', 74: 'Anantasana', 75: 'Salamba Bhujangasana', 76: 'Dandasana', 77: 'Uttanasana', 78: 'Ardha Uttanasana', 79: 'Urdhva Prasarita Eka Padasana', 80: 'Salamba Sirsasana', 81: 'Salamba Sarvangasana', 82: 'Vriksasana', 83: 'Urdhva Dhanurasana', 84: 'Dwi Pada Viparita Dandasana', 85: 'Purvottanasana', 86: 'Urdhva Hastasana', 87: 'Urdhva Mukha Svanasana', 88: 'Virabhadrasana I', 89: 'Virabhadrasana II', 90: 'Virabhadrasana III', 91: 'Upavistha Konasana', 92: 'Prasarita Padottanasana', 93: 'Camatkarasana', 94: 'Yoganidrasana', 95: 'Vrischikasana', 96: 'Vajrasana', 97: 'Tulasana', 98: 'Simhasana', 99: 'Makarasana', 100: 'Lolasana', 101: 'Kurmasana', 102: 'Garbha Pindasana', 103: 'Durvasasana', 71: 'Bhujapidasana', 104: 'Bhekasana', 105: 'Bhairavasana', 106: 'Ganda Bherundasana'}
+    val_tfms = transforms.Compose([
+        Resize(),
+        transforms.Grayscale(num_output_channels=3),
+        transforms.ToTensor()
+    ])
+
+    test_im_tensor = val_tfms(im)[None]
+    res = model_utils.get_yoga_pose_labeled_image(test_im_tensor, model, pose_id_to_name)
+    
+    return plot_utils.get_yoga_pose_labeled_image(res, im)
 
 def delete_other_result_imgs(folder):
     files = glob.glob('app/results/'+folder+'/*.png')
