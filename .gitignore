@@ -4,3 +4,4 @@
 node_modules
 __pycache__/
 .tmp/
+pose_estimation_lib/model_weights/

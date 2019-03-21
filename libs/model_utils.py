@@ -194,7 +194,7 @@ def get_multi_class_labeled_image(test_im_tensor, model):
     return pred_classes, pred_probs     
 
 
-def get_yoga_pose_labeled_image(test_im_tensor, model, pose_id_to_name):
+def get_yoga_pose_labeled_image(test_im_tensor, model, pose_id_to_name, pose_id_to_english_name):
     model.eval()
     with torch.no_grad():
         res = model(test_im_tensor)
@@ -202,9 +202,9 @@ def get_yoga_pose_labeled_image(test_im_tensor, model, pose_id_to_name):
         top_two = pred_probs.argsort()[-2:].cpu().numpy()
         
         res = []
-        if(pred_probs[top_two[-1]]>0.8):
-            res.append({'conf':round(pred_probs[top_two[-1]].item(), 2), 'pose_name': pose_id_to_name[top_two[-1]]})
+        if(pred_probs[top_two[-1]]>0.6):
+            res.append({'conf':round(pred_probs[top_two[-1]].item(), 2), 'pose_name': pose_id_to_name[top_two[-1]], 'english_name': pose_id_to_english_name[str(top_two[-1])]})
         else:
-            res.append({'conf':round(pred_probs[top_two[-1]].item(), 2), 'pose_name': pose_id_to_name[top_two[-1]]})
-            res.append({'conf':round(pred_probs[top_two[-2]].item(), 2), 'pose_name': pose_id_to_name[top_two[-2]]})
+            res.append({'conf':round(pred_probs[top_two[-1]].item(), 2), 'pose_name': pose_id_to_name[top_two[-1]], 'english_name': pose_id_to_english_name[str(top_two[-1])]})
+            res.append({'conf':round(pred_probs[top_two[-2]].item(), 2), 'pose_name': pose_id_to_name[top_two[-2]], 'english_name': pose_id_to_english_name[str(top_two[-2])] })
         return res

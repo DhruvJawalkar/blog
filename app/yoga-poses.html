@@ -54,41 +54,41 @@
           <div class="col-lg-12 col-md-12">
             
             <div class="demo-section" style="padding:50px 20px;">
-              <div class="float-left"><h6 style="color:#f1f1f1">THE DATASET :</h6></div>
-              <div class="float-right">
-                  <div class="sol-containers">
-                      <div>
-                          <label class="sol-labels">Difficulty : </label><select id="difficulty-select" style="width:200px" name="Difficulty Filter"></select> 
-                      </div>
-      
-                      <div>
-                          <label class="sol-labels">Pose Type : </label><select id="pose-type-select" style="width:200px" name="Pose Type Filter" multiple="multiple"></select>
-                      </div>
+              <div style="margin-bottom: 300px;">
+                <div class="float-left">
+                  <h5 style="color:#f1f1f1">Classification + Joint Estimation: </h4>
+                </div>
+                  <div class="clearfix float-right">
+                      <a onclick="invoke_upload_image()" class="btn btn-primary float-left" href="#">Upload Sample Image &rarr;</a>
                     </div>
-                  <div class="clear"></div>       
-                  <div id="filtered-results-div-title"></div>
+                  <input style="display:none;" id="upload-btn" type="file" onchange="upload_image()"><br>
+              <div class="clear"></div>          
+              <div class="result-div" id="result">
+                <img src="images/yoga-poses/pose-sample.png"/>
+              </div>
               </div>
               <div class="clear"></div>
-            <div style="padding-top:10px;" id="filtered-results-div">
-              <div id="filtered-results-img-container"></div>
-            </div>
-            <div class="clear"></div>
-
-            <div style="margin-top: 150px; margin-bottom: 100px;">
-              <div class="float-left">
-                <h4 style="color:#f1f1f1">Pose Classifier Model: </h4>
+              <div style="margin-bottom:200px">
+                <div class="float-left"><h6 style="color:#f1f1f1">THE DATASET :</h6></div>
+                <div class="float-right">
+                    <div class="sol-containers">
+                        <div>
+                            <label class="sol-labels">Difficulty : </label><select id="difficulty-select" style="width:200px" name="Difficulty Filter"></select> 
+                        </div>
+        
+                        <div>
+                            <label class="sol-labels">Pose Type : </label><select id="pose-type-select" style="width:200px" name="Pose Type Filter" multiple="multiple"></select>
+                        </div>
+                      </div>
+                    <div class="clear"></div>       
+                    <div id="filtered-results-div-title"></div>
+                </div>
+                <div class="clear"></div>
+              <div style="padding-top:10px;" id="filtered-results-div">
+                <div id="filtered-results-img-container"></div>
               </div>
-                <div class="clearfix float-right">
-                    <a onclick="invoke_upload_image()" class="btn btn-primary float-left" href="#">Upload Sample Image &rarr;</a>
-                  </div>
-                <input style="display:none;" id="upload-btn" type="file" onchange="upload_image()"><br>
-            <div class="clear"></div>          
-            <div class="result-div" id="result">
-              <img src="images/yoga-poses/pose-sample.png"/>
-            </div>
-            </div>
-            <div class="clear"></div>
-
+              <div class="clear"></div>
+              </div>
             </div>
             <div class="clear"></div>
           </div>

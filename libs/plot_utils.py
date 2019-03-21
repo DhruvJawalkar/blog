@@ -406,15 +406,16 @@ def get_multi_class_labeled_image(pred_classes, pred_probs, im):
     return res_url
 
 def get_yoga_pose_labeled_image(res, im):
-    fig, ax = plt.subplots(1, 1, dpi=150) #, dpi = 100
+    fig, ax = plt.subplots(1, 1, dpi=200) #, dpi = 100
+    ax.set_axis_off()
     w, h = im.size
     show_img_in_subplot(ax, im)
     res_label = ''
-    y = 20
+    y = 10
 
     for i in range(len(res)):
-        res_label = res[i]['pose_name']+' ('+ "{0:.2f}".format(res[i]['conf']*100) +'%)'
-        add_text_to_subplot(ax, (20, y), res_label, size='small')
+        res_label = res[i]['pose_name']+', '+res[i]['english_name'].lower()+' ('+ "{0:.2f}".format(res[i]['conf']*100) +'%)'
+        add_text_to_subplot(ax, (10, y), res_label, size=6)
         if(h>500):
             y += (h/500)*30
         else:
@@ -425,5 +426,5 @@ def get_yoga_pose_labeled_image(res, im):
     hash = np.random.randint(low=0, high=9, size=10)
     hash = ''.join(str(i) for i in hash)
     res_url = 'results/yoga-pose/res-'+hash+'.png'
-    plt.savefig('app/'+res_url, format='png', bbox_inches='tight', pad_inches=0, frameon=False, transparent=True, dpi=150)
+    plt.savefig('app/'+res_url, format='png', bbox_inches='tight', pad_inches=0, frameon=False, transparent=True, dpi=200)
     return res_url    
