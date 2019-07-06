@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Dense Pose</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom fonts for this template -->
+    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+
+    <!-- Custom styles for this template -->
+    <link href="css/clean-blog.css" rel="stylesheet">
+  </head>
+
+  <body>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light" id="mainNav">
+      <div class="container">
+        <a style="font-size: 1rem" class="navbar-brand" href="index.html">DensePose: Dense Human Pose Estimation In The Wild</a>
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+          Menu
+          <i class="fas fa-bars"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="index.html">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="about.html">About</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Page Header -->
+    <header class="masthead" style="background-color: grey">
+      <div class="overlay"></div>
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-10 col-md-10 mx-auto">
+            <div class="demo-section">
+            <h2 class="subheading demo-heading float-left"></h2>
+            <div style="height: 400px; padding-top: 0; display: table-cell; vertical-align: middle;" class="result-div" id="result">
+                <img style="max-height: 400px" src="images/dense-pose/intro.png"/>
+                <!--
+                  <iframe src="//docs.google.com/gview?url=https://dopelemon.me/data/densepose.pptx&embedded=true" style="width:100%; height:100%;" frameborder="0"></iframe>
+                -->
+            </div>
+            </div>
+            <div class="clear"></div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Post Content -->
+    <article>
+      <div class="container main-content">
+        <div class="row">
+          <div class="col-lg-12 col-md-12 mx-auto"> 
+              <p>My <a href="https://docs.google.com/presentation/d/1_HkvFnftpYlZlzINMshEUVPwS4j4WRZYAzhzdmNbRy0/edit?usp=sharing">slides</a> on this paper for the CS 637 Computer Vision II class.</p>  
+              <p>
+                <h2>Problem Statement</h2>    
+                <ul>
+                    <li>Aims at mapping human pixels from an image to 3D surface of a template human body</li>
+                    <li>Task involves object detection, pose estimation, part and instance segmentation</li>
+                </ul>
+                <div style="margin: 30px 0 0 0;" class="text-center">
+                    <img style="width:50%; display:inline-block;" src="images/dense-pose/problem-statement.png"/>
+                </div>
+              </p>
+              <div class="clear"></div>
+              <p style="margin: 100px 0 0 0;">
+                  <h2>3D Human Template</h2>    
+                  <ul>
+                      <li>SMPL – A Skinned Multi-Person Linear Model  </li>
+                      <li>Per part UV Unwrapping to regress UV coordinates</li>
+                  </ul>
+                  <div style="margin: 30px 0 0 0;" class="text-center">
+                      <img style="width:50%; display:inline-block;" src="images/dense-pose/smpl.png"/>
+                      <img style="width:20%; display:inline-block;" src="images/dense-pose/3d-mapping.png"/>
+                  </div>
+                </p>
+                <div class="clear"></div>
+
+              <p style="margin: 100px 0 0 0;">
+                  <h2>Overall Pipeline</h2>    
+                  <div style="margin: 30px 0 0 0;" class="text-center">
+                      <img style="width:80%; display:inline-block;" src="images/dense-pose/overall-pipeline.png"/>
+                  </div>
+                </p>
+                <div class="clear"></div>
+
+              <!--<p style="margin: 100px 0 0 0;">
+                <h2>Backbone (Mask RCNN) key features</h2> 
+                <ul>
+                  <li>ResNet50 FPN (Feature Pyramid Network)</li>
+                  <li>RoI Align</li>
+                </ul>    
+                <div style="margin: 50px 0 0 0;" class="text-center">
+                      <img style="width:50%; display:inline-block;" src="images/dense-pose/fpn.png"/>
+                    </div>
+                    <div class="clear"></div>
+                    <span class="caption text-muted">Feature Pyramid Network</span>
+
+                <div style="margin: 50px 0 0 0;">
+                  <b>RoI Align</b>
+                  <p>
+                      To preserve features when resizing variable sized RoI’s from the Region Proposal Network.<br/>
+                      Bin RoI in 7x7, have 4 equally spaced points in cell, aggregate using max/average pool.<br/> 
+                      Use bilinear interpolation to calculate sample point value.
+                  </p>
+                  <div class="text-center">
+                    <img style="width:25%; display:inline-block;" src="images/dense-pose/roi-align.png"/>
+                  </div>  
+                  </div>
+                  <div class="clear"></div>
+                  <span class="caption text-muted">RoI Align instead of RoI Pooling to improve segmentation results</span>                    
+              </p>-->
+              
+              <p style="margin: 100px 0 0 0;">
+                  <b>Good Techniques used in the paper:</b> 
+                  <ul>
+                    <li>Cascading</li>
+                    <li>Averaging background</li>
+                    <li>Perform evaluation at multiple scales</li>
+                    <li>Using a Teacher Network (FCNN) to boost annotations</li>
+                  </ul>    
+                  <div style="margin: 50px 0 0 0;" class="text-center">
+                        <img style="width:50%; display:inline-block;" src="images/dense-pose/cascading.png"/>
+                      </div>
+                      <div class="clear"></div>
+                      <span class="caption text-muted">Information sharing between branches, additional information from keypoint prediction task helps improve results.</span>
+  
+                  <div style="margin: 50px 0 0 0;">
+                    <div class="text-center">
+                      <img style="width:50%; display:inline-block;" src="images/dense-pose/densepose-star.png"/>
+                    </div>  
+                    </div>
+                    <div class="clear"></div>
+                    <span class="caption text-muted">Using COCO person segmentation masks to averageout background</span>
+
+                  <div style="margin: 50px 0 0 0;">
+                      <div class="text-center">
+                        <img style="width:50%; display:inline-block;" src="images/dense-pose/teacher-network.png"/>
+                      </div>  
+                      </div>
+                      <div class="clear"></div>
+                      <span class="caption text-muted">To boost annotations; Train a FCNN on single person crops, calculate loss on labelled points and ignore unlabelled.
+                          </span>                      
+                </p>                
+              <p style="margin: 100px 0 0 0;">
+                <h2>The Dataset</h2>
+                <ul>
+                    <li>Image to surface correspondences on 50k persons from COCO dataset</li>
+                    <li>Total 5 million correspondences => ~100 per person</li>
+                    <li>Max 14 correspondences per body part</li>                      
+                </ul>
+                <div style="margin: 50px 0 0 0;" class="text-center">
+                    <img style="width:80%; display:inline-block;" src="images/dense-pose/dataset.png"/>
+                    <img style="width:50%; display:inline-block;" src="images/dense-pose/annotation-interface.png"/>
+                  </div>
+                  <div class="clear"></div>
+                  <span class="caption text-muted">The annotation interface to human labellers</span>
+              </p>
+              <p style="margin: 100px 0 0 0;">
+                  <b>Labelling Errors from annotators</b>
+                  <ul>
+                      <li>Large errors ~8cm in labelling on torso and thighs due to lack of distintictive points.</li>
+                  </ul>
+                  <div style="margin: 50px 0 0 0;" class="text-center">
+                      <img style="width:80%; display:inline-block;" src="images/dense-pose/eval.png"/>
+                    </div>
+                    <div class="clear"></div>
+              </p>
+              <p style="margin: 100px 0 0 0;">
+                  <h2>Results</h2>
+                  <div style="margin: 50px 0 0 0;" class="text-center">
+                      <img style="width:100%; display:inline-block;" src="images/dense-pose/results.png"/>
+                    </div>
+                    <div class="clear"></div>
+                </p>
+              <p>
+              <p style="margin: 100px 0 0 0;">
+                  <h2>Application: Texture Transfer</h2>
+                  <div style="margin: 50px 0 0 0;" class="text-center">
+                      <iframe width="770" height="433" src="https://www.youtube.com/embed/Dhkd_bAwwMc" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe> 
+                    </div>
+                    <div class="clear"></div>
+                </p>
+              <p>  
+                <h2 class="section-heading">Links:</h2> 
+                <ul>
+                  <li><a class="underline" href="https://arxiv.org/abs/1802.00434">Paper link</a></li>
+                  <li><a class="underline" href="https://github.com/facebookresearch/Densepose">Project code repo</a></li>
+                  <li><a class="underline" href="http://densepose.org/">Project webpage</a></li>
+                  <li><a class="underline" href="https://arxiv.org/pdf/1703.06870.pdf">Mask RCNN</a></li>
+                </ul>
+                <div class="clear"></div>
+              </p>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <hr>
+
+    <!-- Footer -->
+    <footer>
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-8 col-md-10 mx-auto">
+            <ul class="list-inline text-center">
+              <li class="list-inline-item">
+                <a href="https://github.com/DhruvJawalkar/">
+                  <span class="fa-stack fa-lg">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+              <li class="list-inline-item">
+                <a href="https://www.linkedin.com/in/dhruv-jawalkar-43b8816b/">
+                  <span class="fa-stack fa-lg">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fab fa-linkedin fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+            </ul>
+            <p class="copyright text-muted">Copyright &copy; Your Website 2018</p>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Bootstrap core JavaScript -->
+    <!-- Custom scripts for this template -->
+  </body>
+
+</html>
