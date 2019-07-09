@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>OpenPose</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom fonts for this template -->
+    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+
+    <!-- Custom styles for this template -->
+    <link href="css/clean-blog.css" rel="stylesheet">
+  </head>
+
+  <body>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light" id="mainNav">
+      <div class="container">
+        <a style="font-size: 1rem" class="navbar-brand" href="index.html">OpenPose: Realtime Multi-Person 2D Pose Estimation using Part Affinity Fields</a>
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+          Menu
+          <i class="fas fa-bars"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="index.html">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="about.html">About</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Page Header -->
+    <header class="masthead" style="background-color: grey">
+      <div class="overlay"></div>
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-10 col-md-10 mx-auto">
+            <div class="demo-section">
+            <h2 class="subheading demo-heading float-left"></h2>
+            <div style="text-align: center; height: 600px; padding-top: 0; vertical-align: middle;" class="result-div" id="result">
+                <img style="max-height: 600px;" src="images/open-pose/sample.jpg"/>
+            </div>
+            </div>
+            <div class="clear"></div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Post Content -->
+    <article>
+      <div class="container main-content">
+        <div class="row">
+          <div class="col-lg-12 col-md-12 mx-auto"> 
+              <p>
+                <h2>Problem Statement</h2>
+                <ul>
+                  <li>Estimate joint positions of humans in an image</li>
+                  <li>
+                      Keypoints to predict are Left Eye, Right Eye, Left Ear, Right Ear, Nose, Left Shoulder, Right Shoulder, Left Elbow, Right Elbow, Left Wrist, 
+                      Right Wrist, Left Hip, Right Hip, Left Knee, Right Knee, Left Ankle, Right Ankle
+                  </li>
+                </ul>    
+              </p>
+              <div class="clear"></div>
+              <p style="margin: 100px 0 0 0;">
+                  <h2>Method</h2>    
+                  <ul>
+                      <li>Predict Heatmaps for approximate joint position</li>
+                      <li>Use Part Affinity Fields (PAF's) as guidance to link joints to form skeleton</li>
+                      <li>PAF's are just unit vectors along the limb encoding the direction of the limb</li>
+                      <li>A dot product of possible joint connection will be high if actual limb else low</li>
+                  </ul>
+                  <b>Inference</b>
+                  <ul>
+                      <li>After predicting Heatmaps and PAF's, proceeed to link joints correctly (prevent cross-connections)</li>
+                      <li>Hungarian Algorithm for one-one least cost matching</li>
+                      <li>People might be at different scales in the image, perform inference at multiple scales to boost results</li>
+                  </ul>
+                  <b>Training and dataset</b>
+                  <ul>
+                      <li>Training image resolution is 368x368</li>
+                      <li>Only keypoints are provided in the dataset</li>
+                      <li>PAF's and Heatmaps need to be <b>generated</b> for each image, in the dataset transforms</li>
+                      <li>Dataloader (CPU resources) becomes the bottleneck for training time rather than network (GPU)</li>
+                  </ul>
+                  <b>Optimizations, Training Tips</b>
+                  <ul>
+                      <li>Generate PAF's on 46x46 resolution instead of 368x368</li>
+                      <li>Pre calculate gaussian heatmap patch and paste around keypoints instead of calculating</li>
+                      <li>Network => Backbone, PAF Stages, Heatmap stages</li>
+                      <li>Freeze sections and train stage blocks, use differential learning rates</li>  
+                  </ul>
+                  <div style="margin: 30px 0 0 0;" class="text-center">
+                      <img style="width: 80%; display:inline-block;" src="images/open-pose/overview.png"/>
+                  </div>
+              </p>
+              <div class="clear"></div>
+              <p style="margin: 100px 0 0 0;">
+                  <b>Sample Image:</b>    
+                  <div style="margin: 30px 0 0 0;" class="text-center">
+                      <img style="width: 200px; display:inline-block;" src="images/open-pose/sample-orig.jpg"/>
+                  </div>
+                  <b>Predicted Joint Heatmaps:</b>
+                  <div style="margin: 30px 0 0 0;" class="text-center">
+                      <img style="width: 100%; display:inline-block;" src="images/open-pose/heatmaps.png"/>
+                  </div>
+                  <b>Predicted Part Affinity Fields (PAF's):</b>
+                  <div style="margin: 30px 0 0 0;" class="text-center">
+                      <img style="width: 100%; display:inline-block;" src="images/open-pose/pafs.png"/>
+                  </div>
+
+                  <b>One - One Matching:</b>
+                  <div style="margin: 30px 0 0 0;" class="text-center">
+                      <img style="width: 70%; display:inline-block;" src="images/open-pose/matching.png"/>
+                  </div>
+                  
+                  <b>Network Architecture:</b>
+                  <div style="margin: 30px 0 0 0;" class="text-center">
+                      <img style="width: 100%; display:inline-block;" src="images/open-pose/net-arch.png"/>
+                  </div>
+                </p>
+                <div class="clear"></div>          
+      
+              <p style="margin: 100px 0 0 0;">
+                  <h2>Results</h2>
+                  <div style="margin: 50px 0 0 0;" class="text-center">
+                      <img style="width:100%; display:inline-block;" src="images/open-pose/10.png"/>
+                    </div>
+                    <div class="clear"></div>
+                </p>
+              <p>
+                <h2 class="section-heading">Links:</h2> 
+                <ul>
+                  <li><a class="underline" href="https://github.com/DhruvJawalkar/PyTorch-OpenPose-Realtime-Multi-Person-2D-Pose-Estimation-using-Part-Affinity-Fields">Implementation Code</a></li>
+                  <li><a class="underline" href="https://arxiv.org/pdf/1812.08008.pdf">Paper Link</a></li>
+                  <li><a class="underline" href="http://cocodataset.org/#keypoints-2018">MS COCO Keypoint detection task</a></li>
+                </ul>
+                <div class="clear"></div>
+              </p>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <hr>
+
+    <!-- Footer -->
+    <footer>
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-8 col-md-10 mx-auto">
+            <ul class="list-inline text-center">
+              <li class="list-inline-item">
+                <a href="https://github.com/DhruvJawalkar/">
+                  <span class="fa-stack fa-lg">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+              <li class="list-inline-item">
+                <a href="https://www.linkedin.com/in/dhruv-jawalkar-43b8816b/">
+                  <span class="fa-stack fa-lg">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fab fa-linkedin fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+            </ul>
+            <p class="copyright text-muted">Copyright &copy; Your Website 2018</p>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Bootstrap core JavaScript -->
+    <!-- Custom scripts for this template -->
+  </body>
+
+</html>
