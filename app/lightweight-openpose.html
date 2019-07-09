@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Lightweight OpenPose</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom fonts for this template -->
+    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+
+    <!-- Custom styles for this template -->
+    <link href="css/clean-blog.css" rel="stylesheet">
+  </head>
+
+  <body>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light" id="mainNav">
+      <div class="container">
+        <a style="font-size: 1rem" class="navbar-brand" href="index.html">Lightweight OpenPose: Real-time 2D Multi-Person Pose Estimation on CPU</a>
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+          Menu
+          <i class="fas fa-bars"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="index.html">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="about.html">About</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Page Header -->
+    <header class="masthead" style="background-color: grey">
+      <div class="overlay"></div>
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-10 col-md-10 mx-auto">
+            <div class="demo-section">
+            <h2 class="subheading demo-heading float-left"></h2>
+            <div style="height: 400px; padding-top: 0; vertical-align: middle;" class="result-div" id="result">
+                <img style="max-height: 400px" src="images/lightweight-openpose/preview.jpg"/>
+                <!--
+                  <iframe src="//docs.google.com/gview?url=https://dopelemon.me/data/densepose.pptx&embedded=true" style="width:100%; height:100%;" frameborder="0"></iframe>
+                -->
+            </div>
+            </div>
+            <div class="clear"></div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Post Content -->
+    <article>
+      <div class="container main-content">
+        <div class="row">
+          <div class="col-lg-12 col-md-12 mx-auto"> 
+              <p>
+                <h2>Overview:</h2>    
+                Paper makes changes to the method in 
+                <a href="https://arxiv.org/abs/1611.08050">Realtime Multi-Person 2D Pose Estimation using Part Affinity Fields</a>. 
+                Aim of the paper has been to reduce network parameters heavily, enable inference in realtime even on a CPU machine. 
+                Inference time of OpenPose is ~2.4s, while this approach yeilds ~5-10 fps (200-100ms) on web-cam feed using their python model at input resolution of 256x256.  
+                <div style="margin: 30px 0 0 0;" class="text-center">
+                    <img style="width:70%; display:inline-block;" src="images/lightweight-openpose/old-arch.png"/>
+                </div>
+                <div class="clear"></div>
+                <span class="caption text-muted">Older OpenPose model</span>
+              </p>
+              <div class="clear"></div>
+              <p style="margin: 100px 0 0 0;">
+                  <h2>Changes Suggested</h2>    
+                  <ul>
+                      <li>Uses lighter backbone, VGG16 -> MobileNetV1</li>
+                      <li>Make single branch for PAF and Heatmaps prediction</li>
+                      <li>Replace expensive 7x7 Conv's with 3x3, 1x1 and 3x3 with dilation=2 Conv blocks</li>
+                  </ul>
+                  <div style="margin: 30px 0 0 0;" class="text-center">
+                      <img style="width:50%; display:inline-block;" src="images/lightweight-openpose/net-change.png"/>
+                      <img style="width:25%; display:inline-block;" src="images/lightweight-openpose/conv-change.png"/>
+                  </div>
+                  <b>New Architecture:</b>
+                  <div style="margin: 30px 0 0 0;" class="text-center">
+                      <img style="width:75%; display:inline-block;" src="images/lightweight-openpose/net-arch.png"/>
+                  </div>
+                </p>
+                <div class="clear"></div>
+
+              <p style="margin: 100px 0 0 0;">
+                  <h2>Results</h2>
+                  <ul>
+                    <li>Good performance of 43.4% of Average Precision with only just 1 refinement stage</li>
+                  </ul>    
+                  <div style="margin: 30px 0 0 0;" class="text-center">
+                      <img style="width:60%; display:inline-block;" src="images/lightweight-openpose/perf.png"/>
+                  </div>
+                </p>
+                <div class="clear"></div>
+              
+              <p style="margin: 100px 0 0 0;">
+                  <b>Comparision with other backbones:</b> 
+                  <div style="margin: 50px 0 0 0;" class="text-center">
+                        <img style="width:35%; display:inline-block;" src="images/lightweight-openpose/backbone.png"/>
+                      </div>
+                      <div class="clear"></div>              
+              </p>                
+              <p style="margin: 100px 0 0 0;">
+                  <h2>Review</h2>
+                  <ul>
+                    <li>If we reduce the network input resolution further to 128x128, gives great results !</li>
+                    <li>Without drop on accuracy on major keypoints, performs ~>10fps on a CPU</li>
+                  </ul>     
+                    <div class="clear"></div>
+                </p>
+              <p>  
+                <h2 class="section-heading">Links:</h2> 
+                <ul>
+                  <li><a class="underline" href="https://arxiv.org/pdf/1811.12004.pdf">Paper link</a></li>
+                  <li><a class="underline" href="https://arxiv.org/abs/1611.08050">Open Pose (older)</a></li>
+                  <li><a class="underline" href="https://github.com/Daniil-Osokin/lightweight-human-pose-estimation.pytorch">Official code repo</a></li>
+                </ul>
+                <div class="clear"></div>
+              </p>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <hr>
+
+    <!-- Footer -->
+    <footer>
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-8 col-md-10 mx-auto">
+            <ul class="list-inline text-center">
+              <li class="list-inline-item">
+                <a href="https://github.com/DhruvJawalkar/">
+                  <span class="fa-stack fa-lg">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+              <li class="list-inline-item">
+                <a href="https://www.linkedin.com/in/dhruv-jawalkar-43b8816b/">
+                  <span class="fa-stack fa-lg">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fab fa-linkedin fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+            </ul>
+            <p class="copyright text-muted">Copyright &copy; Your Website 2018</p>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Bootstrap core JavaScript -->
+    <!-- Custom scripts for this template -->
+  </body>
+
+</html>
