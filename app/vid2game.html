@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Vid2Game</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom fonts for this template -->
+    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+
+    <!-- Custom styles for this template -->
+    <link href="css/clean-blog.css" rel="stylesheet">
+  </head>
+
+  <body>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light" id="mainNav">
+      <div class="container">
+        <a style="font-size: 1rem" class="navbar-brand" href="index.html">Vid2Game: Controllable Characters Extracted from Real-World Videos</a>
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+          Menu
+          <i class="fas fa-bars"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="index.html">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="about.html">About</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Page Header -->
+    <header class="masthead" style="background-color: grey">
+      <div class="overlay"></div>
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-12 col-md-12 mx-auto">
+            <div class="demo-section">
+            <h2 class="subheading demo-heading float-left"></h2>
+            <div style="height: 600px; padding-top: 0; display: table-cell; vertical-align: middle;" class="result-div" id="result">
+                <img style="max-height: 600px" src="images/vid2game/preview.png"/>
+                <!--
+                  <iframe src="//docs.google.com/gview?url=https://dopelemon.me/data/densepose.pptx&embedded=true" style="width:100%; height:100%;" frameborder="0"></iframe>
+                -->
+            </div>
+            </div>
+            <div class="clear"></div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Post Content -->
+    <article>
+      <div class="container main-content">
+        <div class="row">
+          <div class="col-lg-12 col-md-12 mx-auto"> 
+              <p>
+                Paper aims to learn a controllable model of a person, given a training video of the person performing a certain activity.     
+                <h2>Method</h2>    
+                <ul>
+                    <li>Controllable character => Generating new frame based on previous pose, current control signal</li>
+                    <li>Uses work from <a class="underline" href="https://arxiv.org/pdf/1802.00434.pdf">DensePose</a> to extract 3D pose from video frames</li>
+                    <li>Uses GAN's to generate new frame based on 3D pose, provided control signal</li>
+                </ul>
+                <ul style="margin-top:30px;">
+                    <li>Pose2Pose Network - Predicts next pose based on current pose, control signal</li>
+                    <li>Pose2Frame Network - Takes current, previous pose, background and outputs final frame</li>
+                    <li>Architectures for both have been inspired from <a class="underline" href="https://arxiv.org/pdf/1711.11585.pdf">Pix2PixHD</a> to generate a quality high resolution output</li>
+                </ul>
+                <div style="margin: 30px 0 0 0;" class="text-center">
+                    <img style="width:100%; display:inline-block;" src="images/vid2game/p2pnet.png"/>
+                    <img style="width:70%; margin-top:50px; display:inline-block;" src="images/vid2game/p2fnet.png"/>
+                </div>
+                <div class="clear"></div>
+                <span style="margin-top:30px;" class="caption text-muted">The Pose2Pose and Pose2Frame Networks</span>
+              </p>
+              <div class="clear"></div>
+              <p style="margin: 50px 0 0 0;">
+                  <h2>Pose2Pose Network</h2>    
+                  <ul>
+                      <li>Autoencoder style Generator Network</li>
+                      <li>Blocks in the latent space are conditioned on the control signal</li>
+                      <li>During training the difference in Center of Mass is take as control signal</li>
+                  </ul>
+              </p>
+              <div class="clear"></div>
+              <p style="margin: 50px 0 0 0;">
+                  <h2>Pose2Frame Network</h2>    
+                  <ul>
+                      <li>Generator Network, outputs a raw frame and also a mask</li>
+                      <li>The final frame is contructed as 'sticking' generated person from raw frame to background using the mask</li>
+                  </ul>
+              </p>
+              <div class="clear"></div>
+              <div style="margin: 30px 0 0 0;" class="text-center">
+                  <img style="width:40%; display:inline-block;" src="images/vid2game/main-eqs.png"/>
+              </div>
+              <div class="clear"></div>
+              <span class="caption text-muted">Generating the final frame from outputs of P2P and P2F Networks</span>
+              <p style="margin: 50px 0 0 0;">
+                  <h2>Discriminator</h2>    
+                  <ul>
+                      <li>Role is to distinguish the actual images from the ones generated by the generator</li>
+                      <li>Outputs class probability of the o/p from generator belonging to the GT distribution</li>
+                      <li>Evaluated at multiple resolutions to improve results</li>
+                      <li>Apart from the discriminator loss, additional feature matching component(activation o/p's from VGG) to ensure closeness of generated frame to GT frame</li>
+                      <li>'t' is a binary mask to filter person from frame</li>
+                  </ul>
+              </p>
+              <div class="clear"></div>
+              <div style="margin: 30px 0 0 0;" class="text-center">
+                  <img style="width:40%; display:inline-block;" src="images/vid2game/discriminator.png"/>
+              </div>
+              <div class="clear"></div>
+              <span class="caption text-muted">Multi resolution Discriminator used to train the Generator networks, 'perception loss' component from the VGG network</span>
+              <p style="margin: 50px 0 0 0;">
+                  <h2>Loss Functions</h2>    
+                  <ul>
+                      <li>Discriminator: Discriminate output from P2P vs GT, force discriminator output to 0 for P2P, 1 for GT</li>
+                      <li>Generator: Fool discriminator, claim outputs belong to GT disctribution</li>
+                      <li>Generator tries to minimize difference in discriminator network activations of its output vs GT</li>
+                      <li>Additional Feature Matching loss(VGG) has been added to generator to make outputs realistic, learn shadows, reflections</li>
+                  </ul>
+              </p>
+              <div class="clear"></div>
+              <div style="margin: 30px 0 0 0;" class="text-center">
+                  <div>
+                      <img style="width:50%; display:inline-block;" src="images/vid2game/p2p-loss-1.png"/>
+                  </div>
+                  <div>
+                      <img style="width:35%; display:inline-block;" src="images/vid2game/p2p-loss-2.png"/>
+                  </div>
+                  <div>
+                      <img style="width:35%; display:inline-block;" src="images/vid2game/p2p-loss-3.png"/>
+                  </div>
+                  <div>
+                      <img style="width:35%; display:inline-block;" src="images/vid2game/p2p-loss-4.png"/>
+                  </div>
+              </div>
+              <div class="clear"></div>
+              <span class="caption text-muted">P2P, Generator Loss</span>
+              <div style="margin: 30px 0 0 0;" class="text-center">
+                  <img style="width:50%; display:inline-block;" src="images/vid2game/p2p-loss-5.png"/>
+              </div>
+              <div class="clear"></div>
+              <span class="caption text-muted">P2P, Discriminator Loss</span>
+
+              <div style="margin: 100px 0 0 0;" class="text-center">
+                  <div>
+                      <img style="width:50%; display:inline-block;" src="images/vid2game/p2f-loss-1.png"/>
+                  </div>
+                  <div>
+                      <img style="width:35%; display:inline-block;" src="images/vid2game/p2f-loss-2.png"/>
+                  </div>
+                  <div>
+                      <img style="width:35%; display:inline-block;" src="images/vid2game/p2f-loss-3.png"/>
+                  </div>
+                  <div>
+                      <img style="width:35%; display:inline-block;" src="images/vid2game/p2f-loss-4.png"/>
+                  </div>
+                  <div>
+                      <img style="width:35%; display:inline-block;" src="images/vid2game/p2f-loss-5.png"/>
+                  </div>
+              </div>
+              <div class="clear"></div>
+              <span class="caption text-muted">P2F, Generator Loss</span>
+              <div style="margin: 30px 0 0 0;" class="text-center">
+                  <img style="width:50%; display:inline-block;" src="images/vid2game/p2f-loss-6.png"/>
+              </div>
+              <div class="clear"></div>
+              <span class="caption text-muted">P2F, Discriminator Loss</span>
+              <!--<p style="margin: 100px 0 0 0;">
+                <h2>Backbone (Mask RCNN) key features</h2> 
+                <ul>
+                  <li>ResNet50 FPN (Feature Pyramid Network)</li>
+                  <li>RoI Align</li>
+                </ul>    
+                <div style="margin: 50px 0 0 0;" class="text-center">
+                      <img style="width:50%; display:inline-block;" src="images/dense-pose/fpn.png"/>
+                    </div>
+                    <div class="clear"></div>
+                    <span class="caption text-muted">Feature Pyramid Network</span>
+
+                <div style="margin: 50px 0 0 0;">
+                  <b>RoI Align</b>
+                  <p>
+                      To preserve features when resizing variable sized RoI’s from the Region Proposal Network.<br/>
+                      Bin RoI in 7x7, have 4 equally spaced points in cell, aggregate using max/average pool.<br/> 
+                      Use bilinear interpolation to calculate sample point value.
+                  </p>
+                  <div class="text-center">
+                    <img style="width:25%; display:inline-block;" src="images/dense-pose/roi-align.png"/>
+                  </div>  
+                  </div>
+                  <div class="clear"></div>
+                  <span class="caption text-muted">RoI Align instead of RoI Pooling to improve segmentation results</span>                    
+              </p>-->
+              <p style="margin: 50px 0 0 0;">
+                  <h2>Training</h2>    
+              </p>
+              <div class="clear"></div>
+              <div style="margin: 30px 0 0 0;" class="text-center">
+                  <img style="width:100%; display:inline-block;" src="images/vid2game/training.png"/>
+              </div>
+              <div class="clear"></div>
+              <p style="margin: 100px 0 0 0;">
+                  <h2>Blending Results</h2>
+                  <div style="margin: 50px 0 0 0;" class="text-center">
+                      <img style="width:50%; display:inline-block;" src="images/vid2game/shadows.png"/>
+                  </div>
+                  <div class="clear"></div>
+                  <span class="caption text-muted">Mask contains information about shadows, reflections, helps blend into different backgrounds</span>
+                  <div style="margin: 50px 0 0 0;" class="text-center">
+                      <img style="width:100%; display:inline-block;" src="images/vid2game/op-blending.png"/>
+                  </div>
+                  <div class="clear"></div>
+              </p>
+              <p>  
+                <h2 class="section-heading">Links:</h2> 
+                <ul>
+                  <li><a class="underline" href="https://arxiv.org/pdf/1904.08379.pdf">Paper link</a></li>
+                  <li><a class="underline" href="https://arxiv.org/pdf/1711.11585.pdf">Pix2PixHD</a></li>
+                </ul>
+                <div class="clear"></div>
+              </p>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <hr>
+
+    <!-- Footer -->
+    <footer>
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-8 col-md-10 mx-auto">
+            <ul class="list-inline text-center">
+              <li class="list-inline-item">
+                <a href="https://github.com/DhruvJawalkar/">
+                  <span class="fa-stack fa-lg">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+              <li class="list-inline-item">
+                <a href="https://www.linkedin.com/in/dhruv-jawalkar-43b8816b/">
+                  <span class="fa-stack fa-lg">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fab fa-linkedin fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+            </ul>
+            <p class="copyright text-muted">Copyright &copy; Your Website 2018</p>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Bootstrap core JavaScript -->
+    <!-- Custom scripts for this template -->
+  </body>
+
+</html>
