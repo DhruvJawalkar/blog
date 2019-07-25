@@ -283,7 +283,7 @@ header.masthead .post-heading .meta a {
 }
 
 .post-preview > a > .post-title {
-  font-size: 30px;
+  font-size: 15px;
   margin-top: 30px;
   margin-bottom: 10px;
 }
@@ -294,10 +294,11 @@ header.masthead .post-heading .meta a {
 }
 
 .post-preview > .post-meta {
-  font-size: 15px;
+  font-size: 10px;
   font-style: italic;
   margin-top: 0;
   color: #868e96;
+  margin-bottom: 20px;
 }
 
 .post-preview > .post-meta > a {
@@ -490,6 +491,10 @@ display:none;
   text-align: center;
 }
 
+.vertical-align-thumbnails>a>img{
+  max-height : 200px;
+}
+
 .sol-containers{
   font-family: 'Open Sans' !important;
     font-size: 13px !important;
@@ -547,4 +552,19 @@ display:none;
   color: #f1f1f1;
   padding-top:10px;
   margin-left:20px;
+}
+.section{
+  display: inline-block;
+  float : left;
+  width : 25%;
+}
+.container{
+  /* max-width: 90% !important; */
+}
+
+.placard{
+  height:350px;
+}
+.new-container{
+  max-width: 90% !important;
 }

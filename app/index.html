@@ -30,7 +30,7 @@
 
   <!-- Navigation is-fixed is-visible-->
   <nav class="navbar navbar-expand-lg navbar-light" id="mainNav">
-    <div class="container">
+    <div class="container new-container">
       <a class="navbar-brand" href="index.html">Sample Projects</a>
       <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
         data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false"
@@ -67,384 +67,350 @@
   </header>
 
   <!-- Main Content -->
-  <div class="container main-content">
-    <div class="row">
-      <div class="col-lg-10 col-md-12 mx-auto">
-        <!-- <div class="row">
-          <div class="col-lg-3 col-md-4 vertical-align-thumbnails">
-            <img style="width:60%; margin:auto;" class="post-thumbnail" src="images/yoga-poses/yoga-pose.png" />
-          </div>
-          <div class="col-lg-9 col-md-8 post-preview">
-            <a href="yoga-poses.html">
-              <h3 class="post-title">
-                Novel Application: Realtime User Activity Guidance
-              </h3>
-              <h4 class="post-subtitle">
-                Model to classify yoga pose performed by person in image
-              </h4>
-            </a>
-            <p class="post-meta">Talks about dataset creation from scratch using google-cdn and
-              tensorflow-object-detection-api, model supports ~100 different asanas
-            </p>
-          </div>
-        </div>
-        <hr> -->
+  <div class="container main-content new-container">
+    <div class="section">
         <div class="row">
-          <div class="col-lg-3 col-md-4 vertical-align-thumbnails">
-            <img style="width:100%; margin:auto;" class="post-thumbnail" src="images/realtime-guidance/demo.png" />
-          </div>
-          <div class="col-lg-9 col-md-8 post-preview">
-            <a href="realtime-guidance.html">
-              <h3 class="post-title">
-                Novel Application: Realtime User Activity Guidance on a CPU
-              </h3>
-              <h4 class="post-subtitle">
-                  Application provides realtime guidance to perform an activity correctly
-              </h4>
-            </a>
-            <p class="post-meta">
-                Discusses method used in the application and points of novelty in the implementation  
-            </p>
-          </div>
-        </div> 
-        <hr>
-        <div class="row">
-          <div class="col-lg-3 col-md-4 vertical-align-thumbnails">
-            <img class="post-thumbnail" src="images/plant-growth/plant-growth-thumbnail.png" />
-          </div>
-          <div class="col-lg-9 col-md-8 post-preview">
-            <a href="plant-growth.html">
-              <h3 class="post-title">
-                Novel Application: Plant growth monitoring
-              </h3>
-              <h4 class="post-subtitle">
-                Attempted approach to isolate plants from background, measure growth as spreadout area
-              </h4>
-            </a>
-            <p class="post-meta">Discusses about LAB color space, Erosion, Dilation in image processing, PlantCV library
-            </p>
-          </div>
-        </div>
-        <hr>
-        <div class="row">
-          <div class="col-lg-3 col-md-4 vertical-align-thumbnails">
-            <img style="width:100%; margin:auto;" class="post-thumbnail" src="images/open-pose/open-pose-thumbnail.png" />
-          </div>
-          <div class="col-lg-9 col-md-8 post-preview">
-            <a href="open-pose.html">
-              <h3 class="post-title">
-                Paper Implementation: OpenPose
-              </h3>
-              <h4 class="post-subtitle">
-                  Paper implementation of OpenPose: Realtime Multi-Person 2D Pose Estimation using Part Affinity Fields
-              </h4>
-            </a>
-            <p class="post-meta">
-                Discusses implementation bits while training and for inference, optimizations to speedup training, model results !
-            </p>
-          </div>
-        </div> 
-        <hr>
-        <div class="row">
-            <div class="col-lg-3 col-md-4 vertical-align-thumbnails">
-              <img class="post-thumbnail" src="images/depth-prediction/depthmap-thumbnail.png" />
-            </div>
-            <div class="col-lg-9 col-md-8 post-preview">
-              <a href="depth-prediction.html">
-                <h3 class="post-title">
-                  Paper Implementation: Depth prediction
-                </h3>
-                <h4 class="post-subtitle">
-                  Paper implementation of Depth Prediction from Single Image using Multi-Scale Deep Network
-                </h4>
-              </a>
-              <p class="post-meta">Discusses paper implementation, NYU depth dataset, model results and limitations
-              </p>
-            </div>
-        </div>
-        <hr>
-        <div class="row">
-          <div class="col-lg-3 col-md-4 vertical-align-thumbnails">
-            <img style="width:100%; margin:auto;" class="post-thumbnail" src="images/pix2pixhd/thumb1.png" />
-            <img style="width:100%; margin:auto;" class="post-thumbnail" src="images/pix2pixhd/thumb2.png" />
-          </div>
-          <div class="col-lg-9 col-md-8 post-preview">
-            <a href="pix2pixhd.html">
-              <h3 class="post-title">
-                Paper review: pix2pixHD
-              </h3>
-              <h4 class="post-subtitle">
-                High-Resolution Image Synthesis and Semantic Manipulation with Conditional GANs
-              </h4>
-            </a>
-            <p class="post-meta">Paper aims to synthesize 2048 × 1024 photo-realistic images from semantic label maps</p>
-          </div>
-        </div>
-        <hr>
-        <div class="row">
-          <div class="col-lg-3 col-md-4 vertical-align-thumbnails">
-            <img style="width:100%; margin:auto;" class="post-thumbnail" src="images/vid2game/thumbnail.png" />
-          </div>
-          <div class="col-lg-9 col-md-8 post-preview">
-            <a href="vid2game.html">
-              <h3 class="post-title">
-                Paper review: Vid2Game
-              </h3>
-              <h4 class="post-subtitle">
-                Vid2Game: Controllable Characters Extracted from Real-World Videos
-              </h4>
-            </a>
-            <p class="post-meta">Paper aims to extract a controllable model from a training video of the person performing a certain activity</p>
-          </div>
-        </div>
-        <hr>
-        <div class="row">
-            <div class="col-lg-3 col-md-4 vertical-align-thumbnails">
-              <img style="width:100%; margin:auto;" class="post-thumbnail" src="images/dense-pose/densepose-thumbnail.png" />
-            </div>
-            <div class="col-lg-9 col-md-8 post-preview">
-              <a href="dense-pose.html">
-                <h3 class="post-title">
-                  Paper review: DensePose
-                </h3>
-                <h4 class="post-subtitle">
-                    DensePose: Dense Human Pose Estimation In The Wild
-                </h4>
-              </a>
-              <p class="post-meta">Paper aims at mapping human pixels from an image to 3D surface of a template human body</p>
-            </div>
-        </div>
-        <hr>
-        <div class="row">
-            <div class="col-lg-3 col-md-4 vertical-align-thumbnails">
-              <img style="width:100%; margin:auto;" class="post-thumbnail" src="images/lightweight-openpose/preview.jpg" />
-            </div>
-            <div class="col-lg-9 col-md-8 post-preview">
-              <a href="lightweight-openpose.html">
-                <h3 class="post-title">
-                  Paper review: Lightweight OpenPose
-                </h3>
-                <h4 class="post-subtitle">
-                    Real-time 2D Multi-Person Pose Estimation on CPU
-                </h4>
-              </a>
-              <p class="post-meta">Paper reduces network parameters, makes optimizations on OpenPose. Makes model lightweight enough to run at multiple frames per second even on a CPU</p>
-            </div>
-        </div>
-        <hr>
-        <!-- <div class="row">
-          <div class="col-lg-3 col-md-4 vertical-align-thumbnails">
-            <img style="width:60%; margin:auto;" class="post-thumbnail" src="images/yoga-poses/yoga-pose.png" />
-          </div>
-          <div class="col-lg-9 col-md-8 post-preview">
-            <a href="yoga-poses.html">
-              <h3 class="post-title">
-                Paper review: UNet
-              </h3>
-              <h4 class="post-subtitle">
-                Model to classify yoga pose performed by person in image
-              </h4>
-            </a>
-            <p class="post-meta">Talks about dataset creation from scratch using google-cdn and
-              tensorflow-object-detection-api, model supports ~100 different asanas
-            </p>
-          </div>
-        </div>
-        <hr> -->
-        <!-- <div class="row">
-          <div class="col-lg-3 col-md-4 vertical-align-thumbnails">
-            <img style="width:60%; margin:auto;" class="post-thumbnail" src="images/yoga-poses/yoga-pose.png" />
-          </div>
-          <div class="col-lg-9 col-md-8 post-preview">
-            <a href="yoga-poses.html">
-              <h3 class="post-title">
-                Paper review: ENet
-              </h3>
-              <h4 class="post-subtitle">
-                Model to classify yoga pose performed by person in image
-              </h4>
-            </a>
-            <p class="post-meta">Talks about dataset creation from scratch using google-cdn and
-              tensorflow-object-detection-api, model supports ~100 different asanas
-            </p>
-          </div>
-        </div>
-        <hr> -->
-        <!-- <div class="row">
-          <div class="col-lg-3 col-md-4 vertical-align-thumbnails">
-            <img style="width:60%; margin:auto;" class="post-thumbnail" src="images/yoga-poses/yoga-pose.png" />
-          </div>
-          <div class="col-lg-9 col-md-8 post-preview">
-            <a href="yoga-poses.html">
-              <h3 class="post-title">
-                Paper review: Mask-RCNN
-              </h3>
-              <h4 class="post-subtitle">
-                Model to classify yoga pose performed by person in image
-              </h4>
-            </a>
-            <p class="post-meta">Talks about dataset creation from scratch using google-cdn and
-              tensorflow-object-detection-api, model supports ~100 different asanas
-            </p>
-          </div>
-        </div>
-        <hr> -->
-        <!-- <div class="row">
-          <div class="col-lg-3 col-md-4 vertical-align-thumbnails">
-            <img style="width:60%; margin:auto;" class="post-thumbnail" src="images/yoga-poses/yoga-pose.png" />
-          </div>
-          <div class="col-lg-9 col-md-8 post-preview">
-            <a href="yoga-poses.html">
-              <h3 class="post-title">
-                Paper review: NAS - FPN
-              </h3>
-              <h4 class="post-subtitle">
-                Model to classify yoga pose performed by person in image
-              </h4>
-            </a>
-            <p class="post-meta">Talks about dataset creation from scratch using google-cdn and
-              tensorflow-object-detection-api, model supports ~100 different asanas
-            </p>
-          </div>
-        </div>
-        <hr> -->  
-      <div class="row">
-        <div class="col-lg-3 col-md-4 vertical-align-thumbnails">
-          <img style="margin:auto;" class="post-thumbnail" src="images/yoga-poses/thumb.png" />
-        </div>
-        <div class="col-lg-9 col-md-8 post-preview">
-          <a href="yoga-poses.html">
-            <h3 class="post-title">
-              Utility: Image Data Collection  
-            </h3>
-            <h4 class="post-subtitle">
-               Tool to collect and clean images of desired category
-            </h4>
-          </a>
-          <p class="post-meta">Talks about large image dataset creation from scratch using google-cdn and
-            tensorflow-object-detection-api to automate data collection and cleaning
-          </p>
-        </div>
-      </div>
-      <hr>
-      <div class="row">
-          <div class="col-lg-3 col-md-4 vertical-align-thumbnails">
-            <img class="post-thumbnail" src="images/multi-class/multi-class-thumbnail.png" />
-          </div>
-          <div class="col-lg-9 col-md-8 post-preview">
-            <a href="multi-class.html">
-              <h3 class="post-title">
-                Multi class classification
-              </h3>
-              <h4 class="post-subtitle">
-                Model trained to detect object categories in an image
-              </h4>
-            </a>
-            <p class="post-meta">
-              Discusses differences from single class classification, need for Precision, Recall as a metric and mean
-              average precision (mAP)
-            </p>
-          </div>
-        </div>
-        <hr>
-      <div class="row">
-        <div class="col-lg-3 col-md-4 vertical-align-thumbnails">
-          <img class="post-thumbnail" src="images/single-obj-det-thumbnail.png" />
-        </div>
-        <div class="col-lg-9 col-md-8 post-preview">
-          <a href="post.html">
-            <h3 class="post-title">
-              Single object detection
-            </h3>
-            <h4 class="post-subtitle">
-              A model trained to detect the largest object in an image
-            </h4>
-          </a>
-          <p class="post-meta">Discusses building a detection model from ground up, writing custom dataset class, NN
-            model,
-            loss function, image transforms and training
-          </p>
-        </div>
-      </div>
-      <hr>
-      <div class="row">
-        <div class="col-lg-3 col-md-4 vertical-align-thumbnails">
-          <img class="post-thumbnail" src="images/tfjs/tfjs-thumbnail.png" />
-        </div>
-        <div class="col-lg-9 col-md-8 post-preview">
-          <a href="tfjs-multiple-object-detection.html">
-            <h3 class="post-title">
-              TensorFlow.js, multi-object detection
-            </h3>
-            <h4 class="post-subtitle">
-              Detects objects from an image, video feed
-            </h4>
-          </a>
-          <p class="post-meta">Discusses features and use of TensorFlow.js, converting pre-trained models from
-            TensorFlow to run within browser, COCO-SSD model</p>
-        </div>
-      </div>
-      <hr>
-      <!---<div class="row">
-        <div class="col-lg-3 col-md-4 vertical-align-thumbnails">
-          <img class="post-thumbnail" src="images/plant-growth/plant-growth-thumbnail.png"/>
-        </div>
-          <div class="col-lg-9 col-md-8 post-preview">
-              <a href="hydroponics.html">
-                  <h3 class="post-title">
-                    Writing about Hydroponics, brief summary   
-                  </h3>
-                </a>
-        </div>
-      </div>
-      <hr>-->
-      <div class="row">
-        <div class="col-lg-3 col-md-4 vertical-align-thumbnails">
-          <img class="post-thumbnail" src="images/sobel/sobel-thumbnail.png" />
-        </div>
-        <div class="col-lg-9 col-md-8 post-preview">
-          <a href="sobel-operator.html">
-            <h3 class="post-title">
-              Simple edge detection
-            </h3>
-            <h4 class="post-subtitle">
-              Detect edges in an image using the Sobel filter
-            </h4>
-          </a>
-          <p class="post-meta">Discusses implementing edge detection using a convolutional filter
-          </p>
-        </div>
-      </div>
-      <hr>
-      <!-- 
-    <div class="row">
-        <div class="col-lg-4 col-md-4">
-          <img class="post-thumbnail" src="images/sobel/sobel-thumbnail.png"/>
-        </div>
-          <div class="col-lg-8 col-md-8 post-preview">
-              <a href="#">
-                  <h2 class="post-title">
-                    Multiple object detection 
-                  </h2>
-                  <h4 class="post-subtitle">
-                      SSD paper implementation to detect multiple objects in an image
-                  </h4>
-                  <p class="post-meta">Discusses implementing edge detection using a convolutional filter
+            <div class="col-lg-8 col-md-8 mx-auto">
+              <div class="">
+                  <h6>Novel Applications:</h6>
+              </div>
+              <hr>
+              <div class="row placard">
+                <div class="col-lg-12 col-md-12 vertical-align-thumbnails">
+                    <a href="realtime-guidance.html">
+                      <img style="width:100%; margin:auto;" class="post-thumbnail" src="images/realtime-guidance/demo.png" />
+                    </a>  
+                </div>
+                <div class="col-lg-12 col-md-12 post-preview">
+                    <a href="realtime-guidance.html">
+                      <h3 class="post-title">
+                        Realtime User Activity Guidance on a CPU
+                      </h3>
+                      <h6 class="post-subtitle">
+                          Application provides realtime guidance to perform an activity correctly
+                      </h6>
+                    </a>
+                    <p class="post-meta">
+                        Discusses method used in the application and points of novelty in the implementation  
                     </p>
-                </a> 
-        </div>
-      </div>
-  <hr>-->
-      <!-- Pager 
-          <div class="clearfix">
-            <a class="btn btn-primary float-right" href="#">Older Posts &rarr;</a>
-          </div>-->
+                  </div>
+              </div>
+              <hr>
+              <div class="row placard">
+                <div class="col-lg-12 col-md-12 vertical-align-thumbnails">
+                  <a href="plant-growth.html">
+                    <img class="post-thumbnail" src="images/plant-growth/plant-growth-thumbnail.png" />
+                  </a>  
+                </div>
+                <div class="col-lg-12 col-md-12 post-preview">
+                    <a href="plant-growth.html">
+                      <h3 class="post-title">
+                        Plant growth monitoring
+                      </h3>
+                      <h6 class="post-subtitle">
+                        Attempted approach to isolate plants from background, measure growth as spreadout area
+                      </h6>
+                    </a>
+                    <p class="post-meta">Discusses about LAB color space, Erosion, Dilation in image processing, PlantCV library
+                    </p>
+                  </div>
+              </div>
+              <hr>
+          </div>
+         </div>
     </div>
+    <div class="section">
+        <div class="row">
+            <div class="col-lg-8 col-md-8 mx-auto">
+              <div class="">
+                <h6>Paper Implementations:</h6>
+              </div>
+              <hr>
+              <div class="row placard">
+                <div class="col-lg-12 col-md-12 vertical-align-thumbnails">
+                  <a href="open-pose.html">
+                    <img style="width:100%; margin:auto;" class="post-thumbnail" src="images/open-pose/open-pose-thumbnail.png" />
+                  </a>  
+                </div>
+                <div class="col-lg-12 col-md-12 post-preview">
+                  <a href="open-pose.html">
+                    <h3 class="post-title">
+                      OpenPose
+                    </h3>
+                    <h6 class="post-subtitle">
+                        Paper implementation of OpenPose: Realtime Multi-Person 2D Pose Estimation using Part Affinity Fields
+                    </h6>
+                  </a>
+                  <p class="post-meta">
+                      Discusses implementation bits while training and for inference, optimizations to speedup training, model results !
+                  </p>
+                </div>
+              </div> 
+              <hr>
+              <div class="row placard">
+                  <div class="col-lg-12 col-md-12 vertical-align-thumbnails">
+                    <a href="depth-prediction.html">
+                      <img class="post-thumbnail" src="images/depth-prediction/depthmap-thumbnail.png" />
+                    </a>  
+                  </div>
+                  <div class="col-lg-12 col-md-12 post-preview">
+                    <a href="depth-prediction.html">
+                      <h3 class="post-title">
+                        Depth prediction
+                      </h3>
+                      <h6 class="post-subtitle">
+                        Paper implementation of Depth Prediction from Single Image using Multi-Scale Deep Network
+                      </h6>
+                    </a>
+                    <p class="post-meta">Discusses paper implementation, NYU depth dataset, model results and limitations
+                    </p>
+                  </div>
+              </div>
+              <hr>
+          </div>
+          </div>
+    </div>
+    <div class="section">
+        <div class="row">
+            <div class="col-lg-8 col-md-8 mx-auto">
+              <div class="">
+                  <h6>Paper Reviews:</h6>
+              </div>
+              <hr>
+              <div class="row placard">
+                <div class="col-lg-12 col-md-12 vertical-align-thumbnails">
+                  <a href="pix2pixhd.html">
+                    <img style="width:100%; margin:auto;" class="post-thumbnail" src="images/pix2pixhd/thumb.png"/>
+                  </a>
+                </div>
+                <div class="col-lg-12 col-md-12 post-preview">
+                  <a href="pix2pixhd.html">
+                    <h3 class="post-title">
+                      pix2pixHD
+                    </h3>
+                    <h6 class="post-subtitle">
+                      High-Resolution Image Synthesis and Semantic Manipulation with Conditional GANs
+                    </h6>
+                  </a>
+                  <p class="post-meta">Paper aims to synthesize 2048 × 1024 photo-realistic images from semantic label maps</p>
+                </div>
+              </div>
+              <hr>
+              <div class="row placard">
+                <div class="col-lg-12 col-md-12 vertical-align-thumbnails">
+                  <a href="vid2game.html">
+                    <img style="width:100%; margin:auto;" class="post-thumbnail" src="images/vid2game/thumbnail.png" />
+                  </a>  
+                </div>
+                <div class="col-lg-12 col-md-12 post-preview">
+                  <a href="vid2game.html">
+                    <h3 class="post-title">
+                      Vid2Game
+                    </h3>
+                    <h6 class="post-subtitle">
+                      Vid2Game: Controllable Characters Extracted from Real-World Videos
+                    </h6>
+                  </a>
+                  <p class="post-meta">Paper aims to extract a controllable model from a training video of the person performing a certain activity</p>
+                </div>
+              </div>
+              <hr>
+              <div class="row placard">
+                  <div class="col-lg-12 col-md-12 vertical-align-thumbnails">
+                    <a href="dense-pose.html">
+                      <img style="width:100%; margin:auto;" class="post-thumbnail" src="images/dense-pose/densepose-thumbnail.png" />
+                    </a>  
+                  </div>
+                  <div class="col-lg-12 col-md-12 post-preview">
+                    <a href="dense-pose.html">
+                      <h3 class="post-title">
+                        DensePose
+                      </h3>
+                      <h6 class="post-subtitle">
+                          DensePose: Dense Human Pose Estimation In The Wild
+                      </h6>
+                    </a>
+                    <p class="post-meta">Paper aims at mapping human pixels from an image to 3D surface of a template human body</p>
+                  </div>
+              </div>
+              <hr>
+              <div class="row placard">
+                  <div class="col-lg-12 col-md-12 vertical-align-thumbnails">
+                    <a href="lightweight-openpose.html">
+                      <img style="width:100%; margin:auto;" class="post-thumbnail" src="images/lightweight-openpose/preview.jpg" />
+                    </a>  
+                  </div>
+                  <div class="col-lg-12 col-md-12 post-preview">
+                    <a href="lightweight-openpose.html">
+                      <h3 class="post-title">
+                        Lightweight OpenPose
+                      </h3>
+                      <h6 class="post-subtitle">
+                          Real-time 2D Multi-Person Pose Estimation on CPU
+                      </h6>
+                    </a>
+                    <p class="post-meta">Paper reduces network parameters, makes optimizations on OpenPose. Makes model lightweight enough to run at multiple frames per second even on a CPU</p>
+                  </div>
+              </div>
+              <hr>
+          </div>
+          </div>
+    </div>
+    <div class="section">
+        <div class="row">
+            <div class="col-lg-8 col-md-8 mx-auto">
+            <div class="">
+                <h6>General:</h6>
+            </div>
+            <hr>  
+            <div class="row placard">
+              <div class="col-lg-12 col-md-12 vertical-align-thumbnails">
+                <a href="yoga-poses.html">
+                  <img style="margin:auto;" class="post-thumbnail" src="images/yoga-poses/thumb.png" />
+                </a>  
+              </div>
+              <div class="col-lg-12 col-md-12 post-preview">
+                <a href="yoga-poses.html">
+                  <h3 class="post-title">
+                    Utility: Image Data Collection  
+                  </h3>
+                  <h6 class="post-subtitle">
+                     Tool to collect and clean images of desired category
+                  </h6>
+                </a>
+                <p class="post-meta">Talks about large image dataset creation from scratch using google-cdn and
+                  tensorflow-object-detection-api to automate data collection and cleaning
+                </p>
+              </div>
+            </div>
+            <hr>
+            <div class="row placard">
+                <div class="col-lg-12 col-md-12 vertical-align-thumbnails">
+                  <a href="multi-class.html">
+                    <img class="post-thumbnail" src="images/multi-class/multi-class-thumbnail.png" />
+                  </a>  
+                </div>
+                <div class="col-lg-12 col-md-12 post-preview">
+                  <a href="multi-class.html">
+                    <h3 class="post-title">
+                      Multi class classification
+                    </h3>
+                    <h6 class="post-subtitle">
+                      Model trained to detect object categories in an image
+                    </h6>
+                  </a>
+                  <p class="post-meta">
+                    Discusses differences from single class classification, need for Precision, Recall as a metric and mean
+                    average precision (mAP)
+                  </p>
+                </div>
+              </div>
+              <hr>
+            <div class="row placard">
+              <div class="col-lg-12 col-md-12 vertical-align-thumbnails">
+                <a href="post.html">
+                  <img class="post-thumbnail" src="images/single-obj-det-thumbnail.png" />
+                </a>  
+              </div>
+              <div class="col-lg-12 col-md-12 post-preview">
+                <a href="post.html">
+                  <h3 class="post-title">
+                    Single object detection
+                  </h3>
+                  <h6 class="post-subtitle">
+                    A model trained to detect the largest object in an image
+                  </h6>
+                </a>
+                <p class="post-meta">Discusses building a detection model from ground up, writing custom dataset class, NN
+                  model,
+                  loss function, image transforms and training
+                </p>
+              </div>
+            </div>
+            <hr>
+            <div class="row placard">
+              <div class="col-lg-12 col-md-12 vertical-align-thumbnails">
+                <a href="tfjs-multiple-object-detection.html">
+                  <img class="post-thumbnail" src="images/tfjs/tfjs-thumbnail.png" />
+                </a>  
+              </div>
+              <div class="col-lg-12 col-md-12 post-preview">
+                <a href="tfjs-multiple-object-detection.html">
+                  <h3 class="post-title">
+                    TensorFlow.js, multi-object detection
+                  </h3>
+                  <h6 class="post-subtitle">
+                    Detects objects from an image, video feed
+                  </h6>
+                </a>
+                <p class="post-meta">Discusses features and use of TensorFlow.js, converting pre-trained models from
+                  TensorFlow to run within browser, COCO-SSD model</p>
+              </div>
+            </div>
+            <hr>
+            <!---<div class="row">
+              <div class="col-lg-12 col-md-12 vertical-align-thumbnails">
+                <img class="post-thumbnail" src="images/plant-growth/plant-growth-thumbnail.png"/>
+              </div>
+                <div class="col-lg-12 col-md-12 post-preview">
+                    <a href="hydroponics.html">
+                        <h3 class="post-title">
+                          Writing about Hydroponics, brief summary   
+                        </h3>
+                      </a>
+              </div>
+            </div>
+            <hr>-->
+            <div class="row placard">
+              <div class="col-lg-12 col-md-12 vertical-align-thumbnails">
+                <a href="sobel-operator.html">
+                  <img class="post-thumbnail" src="images/sobel/sobel-thumbnail.png" />
+                </a>  
+              </div>
+              <div class="col-lg-12 col-md-12 post-preview">
+                <a href="sobel-operator.html">
+                  <h3 class="post-title">
+                    Simple edge detection
+                  </h3>
+                  <h6 class="post-subtitle">
+                    Detect edges in an image using the Sobel filter
+                  </h6>
+                </a>
+                <p class="post-meta">Discusses implementing edge detection using a convolutional filter
+                </p>
+              </div>
+            </div>
+            <hr>
+            <!-- 
+          <div class="row">
+              <div class="col-lg-4 col-md-4">
+                <img class="post-thumbnail" src="images/sobel/sobel-thumbnail.png"/>
+              </div>
+                <div class="col-lg-8 col-md-8 post-preview">
+                    <a href="#">
+                        <h2 class="post-title">
+                          Multiple object detection 
+                        </h2>
+                        <h6 class="post-subtitle">
+                            SSD paper implementation to detect multiple objects in an image
+                        </h6>
+                        <p class="post-meta">Discusses implementing edge detection using a convolutional filter
+                          </p>
+                      </a> 
+              </div>
+            </div>
+        <hr>-->
+            <!-- Pager 
+                <div class="clearfix">
+                  <a class="btn btn-primary float-right" href="#">Older Posts &rarr;</a>
+                </div>-->
+          </div>
+          </div>
+    </div>
+    <div class="clear"></div>
   </div>
-  </div>
-
+  <div class="clear"></div>
   <hr>
-
   <!-- Footer -->
   <footer>
     <div class="container">
