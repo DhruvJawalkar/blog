@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>vid2vid</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom fonts for this template -->
+    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+
+    <!-- Custom styles for this template -->
+    <link href="css/clean-blog.css" rel="stylesheet">
+  </head>
+
+  <body>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light" id="mainNav">
+      <div class="container">
+        <a style="font-size: 1rem" class="navbar-brand" href="index.html">Video-to-Video Synthesis</a>
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+          Menu
+          <i class="fas fa-bars"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="index.html">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="about.html">About</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Page Header -->
+    <header class="masthead" style="background-color: grey">
+      <div class="overlay"></div>
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-12 col-md-12 mx-auto">
+            <div style="padding-top: 25px;" class="demo-section">
+            <h2 class="subheading demo-heading float-left"></h2>
+            <div style="height: 600px; padding-top: 0; display: table-cell; vertical-align: middle;" class="result-div" id="result">
+                <img style="max-height: 600px; display: inline-block;" src="images/vid2vid/preview.png"/>
+            </div>
+            </div>
+            <div class="clear"></div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Post Content -->
+    <article>
+      <div class="container main-content">
+        <div class="row">
+          <div class="col-lg-12 col-md-12 mx-auto"> 
+              <p>
+                <h2>Novelty Overview</h2>
+                Builds on top of pix2pixHD architecture, extends high resolution image generation to videos. Adds additional contrainsts to account for temporal consistency across frames using optical flow.  
+              </p>
+              <p style="margin-top: 100px;">
+                <h2>Challenges</h2>
+                <ul>
+                  <li>Previous methods produced low resolution, temporally incoherent videos</li>
+                  <li>Generating at 2K scale</li>
+                  <li>Smoothness in the generated video, artifacts in the generates frames</li>
+                </ul>
+              </p>
+              <p style="margin-top: 100px;">
+                <h2>Method</h2>    
+                <ul>
+                    <li><b>Sequential Generator</b> - Takes in previous 2 frames, semantic maps, generates op frame</li>
+                    <li><b>Flow Warping</b> - Using optical flow to warp pixels from previous frame to current frame</li>
+                    <li><b>Background-Foreground Prior</b> - Separating foreground, background in the frame generation process</li>
+                    <li><b>Multi-scale Image Discriminator</b> - To ensure scene consistency at all levels (op/4, op/2, op)</li>
+                    <li><b>Multi-scale Video Discriminator</b> - To ensure long term and short term consistency among frames</li>
+                    <li><b>Improved Adversarial Loss</b> - Adds feature matching loss, flow estimation loss</li>
+                </ul>
+              </p>
+              <div class="clear"></div>
+              <p style="margin-top: 100px;">
+                  <h2>Sequential Generator</h2>    
+                  <ul>
+                      <li>During training, model takes in previous 2 frames, semantic segmentation maps and generates a final frame via an intermediate image, optical flow estimate</li>
+                  </ul>
+              </p>
+              <div class="clear"></div>
+              <div style="margin: 30px 0 0 0;" class="text-center">
+                  <img style="width:80%; display:inline-block;" src="images/vid2vid/seq-generator.png"/>
+              </div>
+              <div class="clear"></div>
+              <span class="caption text-muted">Generator Block, G1</span>
+              <div class="clear"></div>
+              <div style="margin: 30px 0 0 0;" class="text-center">
+                  <img style="width:80%; display:inline-block;" src="images/vid2vid/generator-overall.png"/>
+              </div>
+              <div class="clear"></div>
+              <span class="caption text-muted">Overall Generator Network</span>
+              <div class="clear"></div>
+
+
+              <p style="margin-top: 100px;">
+                  <h2>Flow Warping</h2>    
+                  <ul>
+                      <li>Assumption is most information among consecutive frames is redundant</li>
+                      <li>Can use most information from previous frame if optical flow estimate is known</li>
+                      <li>Hence can map, 'warp' them to current frame</li>
+                      <li>Handle rest occluded areas, new content from intermediate image, blend to form final output frame</li>
+                      <li>Learn occlusion mask (<b>m</b>t) for blending</li>
+                  </ul>
+              </p>
+              <div class="clear"></div>
+              <div style="margin: 30px 0 0 0;" class="text-center">
+                  <img style="width:50%; display:inline-block;" src="images/vid2vid/final-frame.png"/>
+              </div>
+              <div class="clear"></div>
+              <span class="caption text-muted">Generating final frame (F)</span>
+
+              <p style="margin-top: 100px;">
+                  <h2>Background-Foreground Prior</h2>    
+                  <ul>
+                      <li>Modelling foreground and background separately was found to produce better results than together</li>
+                      <li>Foreground included semantic areas like Trees, Roads and Background included Cars, Pedestrians etc.</li>
+                      <li>Background reconstructed by using optical flow from previous frame, only occluded areas are synthesized</li>
+                      <li>Foreground objects change a lot, can't rely on previous frame/ optical flow, areas need to be synthesized afresh</li>
+                      <li>'<b>m</b>b' denotes background mask extracted from GT semantic segmentation mask</li>
+                  </ul>
+              </p>
+              <div class="clear"></div>
+              <div style="margin: 30px 0 0 0;" class="text-center">
+                  <img style="width:80%; display:inline-block;" src="images/vid2vid/fg-bg-prior.png"/>
+              </div>
+              <div class="clear"></div>
+              <span class="caption text-muted"></span>
+
+              <p style="margin-top: 100px;">
+                  <b>Ablation Study</b>    
+              </p>
+              <div class="clear"></div>
+              <div style="margin: 30px 0 0 0;" class="text-center">
+                  <img style="width:80%; display:inline-block;" src="images/vid2vid/ablation-study.png"/>
+              </div>
+              <div class="clear"></div>
+              <span class="caption text-muted"></span>
+
+              <p style="margin-top: 100px;">
+                  <h2>Multi-scale Image Discriminator</h2>    
+                  <ul>
+                      <li>Same as <b>pix2pixHD</b> 3 Discriminators, operate on op, op/2, op/4 resolution</li>
+                      <li>70x70 Patch GAN Architecture</li>
+                  </ul>
+              </p>
+              <div class="clear"></div>
+              <p style="margin-top: 100px;">
+                  <h2>Multi-scale Video Discriminator</h2>    
+                  <ul>
+                      <li>Is Multi-scale as Image Discriminator</li>
+                      <li>Adds the long term and short term video coherence part, ensures given the same optical flow the Generator output and GT frames are similar, transition is smooth</li>
+                      <li>Does this in a convoluted way by random sampling window of <b>K</b> consecutive frames, conditions discriminator on the flow</li>
+                  </ul>
+              </p>
+              <div class="clear"></div>
+              <p style="margin-top: 100px;">
+                  <h2>Improved Adversarial Loss</h2>    
+                  <ul>
+                      <li>Builds on traditional GAN objective, adds flow estimation loss, feature matching loss</li>
+                  </ul>
+              </p>
+              <div class="clear"></div>
+              <div style="margin: 30px 0 0 0;" class="text-center">
+                  <img style="width:60%; display:inline-block;" src="images/vid2vid/overall.png"/>
+                  <div>
+                      <img style="width:50%; display:inline-block;" src="images/vid2vid/flow-estimation-loss.png"/>
+                  </div>
+              </div>
+              <div class="clear"></div>
+              <span class="caption text-muted">Improved Adversarial Loss</span>
+              <div class="clear"></div>
+              <p style="margin-top: 100px;">
+                  <h2>Results</h2>
+                  <div style="margin-top:30px;" class="text-center">
+                      <img style="width:100%;" src="https://tcwang0509.github.io/vid2vid/paper_gifs/cityscapes_comparison.gif"/>
+                  </div>
+                  <div class="clear"></div>
+              </p>
+              <span class="caption text-muted">Top Left- Input segmentation maps, Top Right - pix2pixHD applied per frame, Bottom Left - COVST, Bottom Right - Proposed</span>
+              <p style="margin-top: 150px;">
+                <h2>Demo</h2>
+                <div style="margin-top:30px;" class="text-center">
+                    <iframe width="1280" height="720" src="https://www.youtube.com/embed/GrP_aOSXt5U" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+                <div class="clear"></div>
+            </p>
+              <p style="margin-top:100px;">  
+                <h2 class="section-heading">Links:</h2> 
+                <ul>
+                  <li><a class="underline" href="https://arxiv.org/pdf/1808.06601.pdf">vid2vid</a></li>
+                  <li><a class="underline" href="https://arxiv.org/pdf/1711.11585.pdf">Pix2PixHD</a></li>
+                  <li><a class="underline" href="https://tcwang0509.github.io/vid2vid/">Project Website</a></li>
+                  <li><a class="underline" href="https://github.com/NVIDIA/vid2vid">Github Repo</a></li>
+                </ul>
+                <div class="clear"></div>
+              </p>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <hr>
+
+    <!-- Footer -->
+    <footer>
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-8 col-md-10 mx-auto">
+            <ul class="list-inline text-center">
+              <li class="list-inline-item">
+                <a href="https://github.com/DhruvJawalkar/">
+                  <span class="fa-stack fa-lg">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+              <li class="list-inline-item">
+                <a href="https://www.linkedin.com/in/dhruv-jawalkar-43b8816b/">
+                  <span class="fa-stack fa-lg">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fab fa-linkedin fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+            </ul>
+            <p class="copyright text-muted">Copyright &copy; Your Website 2018</p>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Bootstrap core JavaScript -->
+    <!-- Custom scripts for this template -->
+  </body>
+
+</html>
