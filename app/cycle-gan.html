@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Cycle GAN</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom fonts for this template -->
+    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+
+    <!-- Custom styles for this template -->
+    <link href="css/clean-blog.css" rel="stylesheet">
+  </head>
+
+  <body>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light" id="mainNav">
+      <div class="container">
+        <a style="font-size: 1rem" class="navbar-brand" href="index.html">Cycle GAN: Unpaired Image-to-Image Translation using Cycle-Consistent Adversarial Networks</a>
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+          Menu
+          <i class="fas fa-bars"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="index.html">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="about.html">About</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Page Header -->
+    <header class="masthead" style="background-color: grey">
+      <div class="overlay"></div>
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-12 col-md-12 mx-auto">
+            <div style="padding-top: 25px;" class="demo-section">
+            <h2 class="subheading demo-heading float-left"></h2>
+            <div style="height: 600px; padding-top: 0; display: table-cell; vertical-align: middle;" class="result-div" id="result">
+                <img style="max-height: 600px; display: inline-block;" src="images/cycle-gan/preview.png"/>
+            </div>
+            </div>
+            <div class="clear"></div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Post Content -->
+    <article>
+      <div class="container main-content">
+        <div class="row">
+          <div class="col-lg-12 col-md-12 mx-auto"> 
+              <p>
+                <h2>Overview</h2>
+                Paper approaches Image to Image Translation problem when training dataset lacks aligned image pairs (inputs vs exact expected output). 
+                Introduces 'Cycle Consistency Loss' component to combat mode collapse.   
+              </p>
+
+              <p style="margin-top: 100px;">
+                <h2>Method</h2>    
+                <ul>
+                  <li>Uses GANs to generate the translated image from domain <b>X</b> to domain <b>Y</b></li>
+                  <li>Using unconditional GAN loss without constraining on input content would yeild in 'Mode Collapse' problem</li>  
+                  <li><b>Mode Collapse</b> - Generator <b>G</b> learns to predict just one realistic looking output in domain <b>Y</b>, ignoring input</li>   
+                  <li><b>Cycle Consistency</b> - Employ second Generator <b>F</b> to learn backward mapping, to convert back output to domain <b>X</b></li>  
+                  <li><b>F</b> forces <b>G</b> to output diverse, domain <b>Y</b> stylized input with content intact</li>  
+                </ul>
+              </p>
+              <div class="clear"></div>
+              <div style="margin: 30px 0 0 0;" class="text-center">
+                  <img style="width:30%; display:inline-block;" src="images/cycle-gan/discriminators.png"/>
+                  <img style="width:80%; display:inline-block;" src="images/cycle-gan/cycle-consistency.png"/>
+              </div>
+              <div class="clear"></div>
+              <span class="caption text-muted">Cycle Consistency</span>
+              <div class="clear"></div>
+              <p style="margin-top: 100px;">
+                  <h2>Full Objective</h2>    
+                  <ul>
+                      <li>Adds unconstained GAN loss from both <b>G</b> and <b>F</b> and their Discriminators <b>Dx</b> and <b>Dy</b></li>
+                      <li>Adds cycle consistency loss component enforcing reconstruction of the original image</li>
+                  </ul>
+              </p>
+              <div class="clear"></div>
+              <div style="margin: 30px 0 0 0;" class="text-center">
+                  <div>
+                      <img style="width:40%; display:inline-block;" src="images/cycle-gan/overall-loss.png"/>
+                  </div>
+                  <div style="margin-top:30px;">
+                      <img style="width:40%; display:inline-block;" src="images/cycle-gan/gan-loss.png"/>
+                  </div>
+                  <div style="margin-top:30px;">
+                      <img style="width:30%; display:inline-block;" src="images/cycle-gan/cycle-consistency-loss.png"/>
+                  </div>
+              </div>
+              <div class="clear"></div>
+              <span class="caption text-muted">Overall Loss</span>
+              <div class="clear"></div>
+              <div style="margin: 30px 0 0 0;" class="text-center">
+                  <img style="width:40%; display:inline-block;" src="images/cycle-gan/overall-objective.png"/>
+              </div>
+              <div class="clear"></div>
+              <span class="caption text-muted">Overall Objective</span>
+              <p style="margin-top: 100px;">
+                <b>Training Details</b>    
+                <ul>
+                    <li>To stabilize training, use least squares loss instead</li>
+                </ul>
+            </p>
+            <div class="clear"></div>
+            <div style="margin: 30px 0 0 0;" class="text-center">
+                <div style="width:40%; display:inline-block;">
+                  <img style="width:100%; float:left;" src="images/cycle-gan/training-details.png"/>
+                </div>
+            </div>
+            <div class="clear"></div>
+
+              <p style="margin-top: 100px;">
+                  <h2>Analysis</h2>    
+                  <ul>
+                      <li>Ablation study on the components of the loss function has been done supporting cycle consistency loss</li>
+                      <li>Performance when compared to similar (unpaired) methods is better</li>
+                      <li>pix2pix outperforms because of paired images in their formulation, method. Becomes upperbound for this method.</li>
+                  </ul>
+              </p>
+              <div class="clear"></div>
+              <div style="margin: 30px 0 0 0;" class="text-center">
+                  <img style="width:50%; display:inline-block;" src="images/cycle-gan/loss-ablation-study.png"/>
+              </div>
+              <div class="clear"></div>
+              <span class="caption text-muted">Ablation Study of the loss function</span>
+              <div class="clear"></div>
+              <div style="margin: 30px 0 0 0;" class="text-center">
+                  <img style="width:50%; display:inline-block;" src="images/cycle-gan/comparision-to-pix2pix.png"/>
+              </div>
+              <div class="clear"></div>
+              <span class="caption text-muted">Comparision to similar methods and pix2pix</span>
+              <p style="margin-top: 100px;">
+                  <h2>Results</h2>    
+              </p>
+              <div class="clear"></div>
+              <div style="margin: 30px 0 0 0;" class="text-center">
+                  <img style="width:80%; display:inline-block;" src="images/cycle-gan/reconstruction.png"/>
+              </div>
+              <div class="clear"></div>
+              <span class="caption text-muted">Image Reconstruction results</span>
+              <div class="clear"></div>
+              <div style="margin: 30px 0 0 0;" class="text-center">
+                  <img style="width:80%; display:inline-block;" src="images/cycle-gan/cycle-gan-plus-lidentity-res.png"/>
+                  <img style="width:50%; display:inline-block;" src="images/cycle-gan/identity-loss.png"/>
+              </div>
+              <div class="clear"></div>
+              <span class="caption text-muted">Addition of Identity (when actually given image of output domain, prerserve it) component improves results</span>
+              <div class="clear"></div>
+            
+              <p style="margin-top:100px;">  
+                <h2 class="section-heading">Links:</h2> 
+                <ul>
+                  <li><a class="underline" href="https://arxiv.org/pdf/1703.10593.pdf">Paper Link</a></li>
+                  <li><a class="underline" href="https://junyanz.github.io/CycleGAN/">Project Website</a></li>
+                </ul>
+                <div class="clear"></div>
+              </p>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <hr>
+
+    <!-- Footer -->
+    <footer>
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-8 col-md-10 mx-auto">
+            <ul class="list-inline text-center">
+              <li class="list-inline-item">
+                <a href="https://github.com/DhruvJawalkar/">
+                  <span class="fa-stack fa-lg">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+              <li class="list-inline-item">
+                <a href="https://www.linkedin.com/in/dhruv-jawalkar-43b8816b/">
+                  <span class="fa-stack fa-lg">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fab fa-linkedin fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+            </ul>
+            <p class="copyright text-muted">Copyright &copy; Your Website 2018</p>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Bootstrap core JavaScript -->
+    <!-- Custom scripts for this template -->
+  </body>
+
+</html>
