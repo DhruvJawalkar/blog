@@ -1,6 +1,18 @@
 var api_root_url = location.hostname=='localhost' ?  'http://localhost:5000' : 'https://dopelemon.me/api'
 var res_folder_root_url = location.hostname=='localhost' ? '' : 'https://dopelemon.me/'
-
+  
+window.onload = function() {
+    var gifs = Gifffer();
+  
+    /*
+    setTimeout( function() {
+      gifs[0].click(); //will play the first gif
+    }, 1000);
+    setTimeout( function() {
+        gifs[0].click(); //will play the first gif
+      }, 4000);
+      */
+  }
 
 function invoke_upload_image(){
     $('#upload-btn').click();
