@@ -70,148 +70,136 @@
           <div class="col-lg-12 col-md-12 mx-auto"> 
               <p>
                 <h2>Novelty Overview</h2>
-                Builds on top of pix2pixHD architecture, extends high resolution image generation to videos. Adds additional contrainsts to account for temporal consistency across frames using optical flow.  
-              </p>
-              <p style="margin-top: 100px;">
-                <h2>Challenges</h2>
-                <ul>
-                  <li>Previous methods produced low resolution, temporally incoherent videos</li>
-                  <li>Generating at 2K scale</li>
-                  <li>Smoothness in the generated video, artifacts in the generates frames</li>
-                </ul>
+                Comes up with <b>Pyramid Pooling Module</b> to add more 'context' to per pixel prediction. Adding image as a whole, different subregions as additional context helps improve pixel level scene parsing. 
               </p>
               <p style="margin-top: 100px;">
                 <h2>Method</h2>    
                 <ul>
-                    <li><b>Sequential Generator</b> - Takes in previous 2 frames, semantic maps, generates op frame</li>
-                    <li><b>Flow Warping</b> - Using optical flow to warp pixels from previous frame to current frame</li>
-                    <li><b>Background-Foreground Prior</b> - Separating foreground, background in the frame generation process</li>
-                    <li><b>Multi-scale Image Discriminator</b> - To ensure scene consistency at all levels (op/4, op/2, op)</li>
-                    <li><b>Multi-scale Video Discriminator</b> - To ensure long term and short term consistency among frames</li>
-                    <li><b>Improved Adversarial Loss</b> - Adds feature matching loss, flow estimation loss</li>
+                  <li>Processes final feature map from ResNet backend and adds more context to improve segmentation results</li>
+                  <li>Adds global scene as an aggregated context (<b>1x1xN</b>)</li>
+                  <li>Image as 2x2  subregions context (<b>2x2xN</b>)</li>
+                  <li>Divides futher into 3x3 and 6x6</li>
+                  <li>Going down, the levels contain more spatial relationship information, helps learn object shape better</li>
+                  <li>Performs 1x1 Conv to reduced channels to 1 and equally weigh all levels before upsampling and concatenation</li>
+                  
                 </ul>
+                <div class="clear"></div>
+                <div style="margin: 30px 0 0 0;" class="text-center">
+                    <img style="width:100%; display:inline-block;" src="images/psp-net/psp-overview.png"/>
+                </div>
+                <div class="clear"></div>
+                <span class="caption text-muted"></span>
+                <div class="clear"></div>
               </p>
               <div class="clear"></div>
+
               <p style="margin-top: 100px;">
-                  <h2>Sequential Generator</h2>    
+                <h2>Improvements</h2>    
+                <ul>
+                  <li>Adding global context and image subregions as context helps making better predictions</li>
+                  <li><b>Row 1</b> - Reduces out of context errors ('Predicting car on a river')</li>
+                  <li><b>Row 2</b> - Reduces part and part predictions for objects exceeding receptive field ('Part Building, Part Skyscraper')</li>
+                  <li><b>Row 3</b> - Help predict smaller inconspicuous objects (pillow, traffic signs etc)</li>
+                </ul>            
+                <div class="clear"></div>
+                <div style="margin: 30px 0 0 0;" class="text-center">
+                    <img style="width:100%; display:inline-block;" src="images/psp-net/psp-improvements.png"/>
+                </div>
+                <div class="clear"></div>
+                <span class="caption text-muted"></span>
+                <div class="clear"></div>
+              </p>
+              <div class="clear"></div>
+
+              <p style="margin-top: 100px;">
+                  <h2>Auxillary Loss</h2>    
                   <ul>
-                      <li>During training, model takes in previous 2 frames, semantic segmentation maps and generates a final frame via an intermediate image, optical flow estimate</li>
+                      <li>During training larger networks, addition of an auxillary loss in the earlier layers helps, improves results</li>
                   </ul>
               </p>
               <div class="clear"></div>
               <div style="margin: 30px 0 0 0;" class="text-center">
-                  <img style="width:80%; display:inline-block;" src="images/vid2vid/seq-generator.png"/>
+                  <img style="width:50%; display:inline-block;" src="images/psp-net/auxillary-loss.png"/>
               </div>
               <div class="clear"></div>
-              <span class="caption text-muted">Generator Block, G1</span>
+              <span class="caption text-muted">Auxillary loss on the ResNet101, added after 'res4b22' block</span>
               <div class="clear"></div>
-              <div style="margin: 30px 0 0 0;" class="text-center">
-                  <img style="width:80%; display:inline-block;" src="images/vid2vid/generator-overall.png"/>
-              </div>
-              <div class="clear"></div>
-              <span class="caption text-muted">Overall Generator Network</span>
-              <div class="clear"></div>
-
 
               <p style="margin-top: 100px;">
-                  <h2>Flow Warping</h2>    
+                  <h2>Ablation Studies</h2>    
                   <ul>
-                      <li>Assumption is most information among consecutive frames is redundant</li>
-                      <li>Can use most information from previous frame if optical flow estimate is known</li>
-                      <li>Hence can map, 'warp' them to current frame</li>
-                      <li>Handle rest occluded areas, new content from intermediate image, blend to form final output frame</li>
-                      <li>Learn occlusion mask (<b>m</b>t) for blending</li>
+                      <li>Investigating role of Pyramid pooling module, (<b>B1234</b>) vs only global context (<b>B1</b>)</li>
+                      <li>Choice of pooling operating, Average (<b>AVE</b>) vs Max (<b>MAX</b>)</li>
+                      <li>Role of Dimensionality Reduction (<b>DR</b>), 1x1 Conv to reduce channels</li>
+                      <li>Baseline model being ResNet50 based FCN with dialted network</li>
+                      <li>Role of Data Augmentation (<b>DA</b>) and Auxillary Loss (<b>AL</b>)</li>
                   </ul>
               </p>
               <div class="clear"></div>
               <div style="margin: 30px 0 0 0;" class="text-center">
-                  <img style="width:50%; display:inline-block;" src="images/vid2vid/final-frame.png"/>
+                  <img style="width:50%; display:inline-block;" src="images/psp-net/perf-comparision-levels.png"/>
               </div>
               <div class="clear"></div>
-              <span class="caption text-muted">Generating final frame (F)</span>
+              <span class="caption text-muted">Role of Pyramid Levels, Average Pooling and 1x1 Conv</span>
+
+              <div class="clear"></div>
+              <div style="margin: 30px 0 0 0;" class="text-center">
+                  <img style="width:50%; display:inline-block;" src="images/psp-net/perf-comparision-aux-loss.png"/>
+              </div>
+              <div class="clear"></div>
+              <span class="caption text-muted">Role of Auxillary Loss and Data Augmentation</span>
 
               <p style="margin-top: 100px;">
-                  <h2>Background-Foreground Prior</h2>    
+                  <h2>Performance Comparision</h2>    
                   <ul>
-                      <li>Modelling foreground and background separately was found to produce better results than together</li>
-                      <li>Foreground included semantic areas like Trees, Roads and Background included Cars, Pedestrians etc.</li>
-                      <li>Background reconstructed by using optical flow from previous frame, only occluded areas are synthesized</li>
-                      <li>Foreground objects change a lot, can't rely on previous frame/ optical flow, areas need to be synthesized afresh</li>
-                      <li>'<b>m</b>b' denotes background mask extracted from GT semantic segmentation mask</li>
+                      <li>In 2016, achieved SOTA results on all classes in PASCAL dataset</li>
+                      <li>Compared to other methods, acheives significant improvement on Cityscapes dataset</li>
                   </ul>
               </p>
               <div class="clear"></div>
               <div style="margin: 30px 0 0 0;" class="text-center">
-                  <img style="width:80%; display:inline-block;" src="images/vid2vid/fg-bg-prior.png"/>
+                  <img style="width:100%; display:inline-block;" src="images/psp-net/pascal-per-class-results.png"/>
               </div>
               <div class="clear"></div>
               <span class="caption text-muted"></span>
 
-              <p style="margin-top: 100px;">
-                  <b>Ablation Study</b>    
-              </p>
               <div class="clear"></div>
               <div style="margin: 30px 0 0 0;" class="text-center">
-                  <img style="width:80%; display:inline-block;" src="images/vid2vid/ablation-study.png"/>
+                  <img style="width:50%; display:inline-block;" src="images/psp-net/perf-comparision-cityscapes.png"/>
               </div>
               <div class="clear"></div>
-              <span class="caption text-muted"></span>
+              <span class="caption text-muted">Comparision on Cityscapes dataset, <a class="underline" href="https://www.cityscapes-dataset.com/benchmarks/">iIoU</a> denotes instance wise calculation, weighted according to object scale</span>
 
-              <p style="margin-top: 100px;">
-                  <h2>Multi-scale Image Discriminator</h2>    
-                  <ul>
-                      <li>Same as <b>pix2pixHD</b> 3 Discriminators, operate on op, op/2, op/4 resolution</li>
-                      <li>70x70 Patch GAN Architecture</li>
-                  </ul>
-              </p>
-              <div class="clear"></div>
-              <p style="margin-top: 100px;">
-                  <h2>Multi-scale Video Discriminator</h2>    
-                  <ul>
-                      <li>Is Multi-scale as Image Discriminator</li>
-                      <li>Adds the long term and short term video coherence part, ensures given the same optical flow the Generator output and GT frames are similar, transition is smooth</li>
-                      <li>Does this in a convoluted way by random sampling window of <b>K</b> consecutive frames, conditions discriminator on the flow</li>
-                  </ul>
-              </p>
-              <div class="clear"></div>
-              <p style="margin-top: 100px;">
-                  <h2>Improved Adversarial Loss</h2>    
-                  <ul>
-                      <li>Builds on traditional GAN objective, adds flow estimation loss, feature matching loss</li>
-                  </ul>
-              </p>
-              <div class="clear"></div>
-              <div style="margin: 30px 0 0 0;" class="text-center">
-                  <img style="width:60%; display:inline-block;" src="images/vid2vid/overall.png"/>
-                  <div>
-                      <img style="width:50%; display:inline-block;" src="images/vid2vid/flow-estimation-loss.png"/>
-                  </div>
-              </div>
-              <div class="clear"></div>
-              <span class="caption text-muted">Improved Adversarial Loss</span>
               <div class="clear"></div>
               <p style="margin-top: 100px;">
                   <h2>Results</h2>
                   <div style="margin-top:30px;" class="text-center">
-                      <img style="width:100%;" src="https://tcwang0509.github.io/vid2vid/paper_gifs/cityscapes_comparison.gif"/>
+                      <img style="width:100%;" src="images/psp-net/psp-cityscapes-results.png"/>
                   </div>
+                  <span class="caption text-muted">Results on Cityscapes dataset, really close to ground truth</span>
                   <div class="clear"></div>
-              </p>
-              <span class="caption text-muted">Top Left- Input segmentation maps, Top Right - pix2pixHD applied per frame, Bottom Left - COVST, Bottom Right - Proposed</span>
-              <p style="margin-top: 150px;">
-                <h2>Demo</h2>
-                <div style="margin-top:30px;" class="text-center">
-                    <iframe width="1280" height="720" src="https://www.youtube.com/embed/GrP_aOSXt5U" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+                  <div style="margin-top:30px;" class="text-center">
+                    <img style="width:100%;" src="images/psp-net/psp-ADE20k-results.png"/>
                 </div>
+                <span class="caption text-muted">Results on ADE20K dataset, 'baseline' being ResNet50 based FCN with dilated network (without pyramid pooling)</span>
                 <div class="clear"></div>
-            </p>
+
+                <div style="margin-top:30px;" class="text-center">
+                  <img style="width:100%;" src="images/psp-net/psp-pascal-results.png"/>
+              </div>
+              <span class="caption text-muted">Results on PASCAL VOC 2012 dataset</span>
+              <div class="clear"></div>
+              </p>
+              
+              
               <p style="margin-top:100px;">  
                 <h2 class="section-heading">Links:</h2> 
                 <ul>
-                  <li><a class="underline" href="https://arxiv.org/pdf/1808.06601.pdf">vid2vid</a></li>
-                  <li><a class="underline" href="https://arxiv.org/pdf/1711.11585.pdf">Pix2PixHD</a></li>
-                  <li><a class="underline" href="https://tcwang0509.github.io/vid2vid/">Project Website</a></li>
-                  <li><a class="underline" href="https://github.com/NVIDIA/vid2vid">Github Repo</a></li>
+                  <li><a class="underline" href="https://arxiv.org/pdf/1612.01105.pdf">Paper Link</a></li>
+                  <li><a class="underline" href="https://github.com/hszhao/PSPNet">Github Repo</a></li>
+                  <li><a class="underline" href="https://groups.csail.mit.edu/vision/datasets/ADE20K/">ADE20K dataset</a></li>
+                  <li><a class="underline" href="https://www.cityscapes-dataset.com/">Cityscapes dataset</a></li>
                 </ul>
                 <div class="clear"></div>
               </p>
