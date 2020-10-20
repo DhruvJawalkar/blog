@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Pose Guidance</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="https://dopelemon.me/capstone/bootstrap.min.dbaf14a0.css" rel="stylesheet">
+
+    <!-- Custom fonts for this template -->
+    <link href="https://dopelemon.me/capstone/all.min.88bba826.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
+
+    <!-- Custom styles for this template -->
+    <link href="https://dopelemon.me/capstone/clean-blog.5b8a6228.css" rel="stylesheet">
+
+    <style>.footer {
+            position: fixed;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            color: black;
+        }
+
+        .footer-text {
+            max-width: 600px;
+            text-align: center;
+            margin: auto;
+        }
+
+        @media only screen and (max-width: 600px) {
+
+            .footer-text,
+            .dg {
+                display: none;
+            }
+        }
+
+        /*
+         *  The following loading spinner CSS is from SpinKit project
+         *  https://github.com/tobiasahlin/SpinKit
+         */
+        .sk-spinner-pulse {
+            width: 20px;
+            height: 20px;
+            margin: auto 10px;
+            float: left;
+            background-color: #333;
+            border-radius: 100%;
+            -webkit-animation: sk-pulseScaleOut 1s infinite ease-in-out;
+            animation: sk-pulseScaleOut 1s infinite ease-in-out;
+        }
+        .dg {
+            display: none !important;
+        }
+        #main{
+            text-align: center;
+        }
+
+        @-webkit-keyframes sk-pulseScaleOut {
+            0% {
+                -webkit-transform: scale(0);
+                transform: scale(0);
+            }
+
+            100% {
+                -webkit-transform: scale(1.0);
+                transform: scale(1.0);
+                opacity: 0;
+            }
+        }
+
+        @keyframes sk-pulseScaleOut {
+            0% {
+                -webkit-transform: scale(0);
+                transform: scale(0);
+            }
+
+            100% {
+                -webkit-transform: scale(1.0);
+                transform: scale(1.0);
+                opacity: 0;
+            }
+        }
+
+        .spinner-text {
+            float: left;
+        }</style>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+  </head>
+
+  <body>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light" id="mainNav">
+      <div class="container">
+        <a class="navbar-brand" href="https://dopelemon.me/capstone/index.html">Pose Guidance</a>
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+          Menu
+          <i class="fas fa-bars"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+        </div>
+      </div>
+    </nav>
+
+    <!-- Page Header -->
+    <header class="masthead" style="background-color: grey">
+      <div class="overlay"></div>
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-10 col-md-10 mx-auto">
+            
+            <div style="height:1000px;" class="demo-section">
+                <h2 class="subheading demo-heading float-left"></h2>
+                <div id="info" style="display:none">
+                </div>
+                <div id="loading" style="display:flex">
+                    <div class="spinner-text">
+                      Loading PoseNet model, might take upto 30 seconds to load model weights in browser... <br>
+                      App would then ask for your permission to access your built-in camera to be able to guide you through the pose routine.
+                    </div>
+                    <div class="sk-spinner sk-spinner-pulse"></div>
+                </div>
+                <div id="main" style="display:none">
+                    <video id="video" playsinline="" style="display: none;">
+                    </video>
+                    <canvas id="output">
+                </canvas></div>
+
+
+                <!-- <div id="close-web-cam" class="display-none clearfix float-right" style="margin-left: 10px;">
+                  <a onclick="close_stream()" class="btn btn-primary float-left" href="#">Close</a>
+                </div>
+                <div id="web-cam-btn" class="clearfix float-right" style="margin-left: 10px;" title="Please wait 5-10 secs as the tf model downloads intially">
+                    <a onclick="load_webcam()" class="btn btn-primary float-left disabled" href="#">Try Real Time (on webcam feed)</a>
+                  </div> -->
+            <div class="clear"></div>
+            <div class="result-div" id="result">
+              <div id="spinner" class="spinner"><img style="width:50px;" src="https://dopelemon.me/capstone/spinner.f4c2cd4a.gif"></div>
+              <img style="width:100%; display: none" id="img" src="" alt="Image Preview ...">
+              <canvas id="canvas"></canvas>   
+            </div>
+            <video id="video" style="display:none" width="700" height="500"></video>       
+            </div>
+            <div class="clear"></div>
+          </div>
+        </div>
+      </div>
+    </header>
+    <img id="activity-overview" style="display:none;" src="https://dopelemon.me/capstone/collage-resized.f93691f9.png">
+    <img id="stage-1" style="display:none;" src="https://dopelemon.me/capstone/stage1-resized.7d655e41.png">
+    <img id="stage-2" style="display:none;" src="https://dopelemon.me/capstone/stage2-resized.19629911.png">
+    <img id="stage-3" style="display:none;" src="https://dopelemon.me/capstone/stage3-resized.7e17713a.png">
+    <img id="stage-4" style="display:none;" src="https://dopelemon.me/capstone/stage4-resized.d66c781a.png">
+    <img id="stage-5" style="display:none;" src="https://dopelemon.me/capstone/stage5-resized.8f2099c8.png">
+    <script src="https://dopelemon.me/capstone/camera.283d5d54.js"></script>
+    <script src="https://code.responsivevoice.org/responsivevoice.js?key=bTTF3lp8"></script>
+  </body>
+
+</html>
+
